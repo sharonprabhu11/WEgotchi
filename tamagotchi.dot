@@ -1,0 +1,57 @@
+digraph Tamagotchi {
+    rankdir=LR;
+    node [shape=rectangle, style=filled, color=lightgrey];
+
+    // States
+    Egg -> Baby -> Child -> Teenager -> Adult -> Senior -> Death;
+
+    // Actions
+    node [shape=ellipse, color=lightblue];
+    "Feed" -> "Hunger Meter";
+    "Play" -> "Happy Meter";
+    "Medicine" -> "Health Meter";
+    "Clean" -> "Health Meter";
+    "Scold" -> "Behaviour Meter";
+    "Praise" -> "Behaviour Meter";
+
+    // Meters
+    node [shape=rectangle, color=lightgreen];
+    "Hunger Meter" -> "Health Meter" [label="Affects"];
+    "Happy Meter" -> "Health Meter" [label="Affects"];
+    "Health Meter" -> "State Change" [label="Triggers"];
+    "Behaviour Meter" -> "Happy Meter" [label="Affects"];
+
+    // Interactions
+    node [shape=ellipse, color=yellow];
+    "Feed" -> "Pet";
+    "Play" -> "Pet";
+    "Medicine" -> "Pet";
+    "Clean" -> "Pet";
+    "Scold" -> "Pet";
+    "Praise" -> "Pet";
+
+    // Pet's Life Cycle
+    subgraph cluster_lifecycle {
+        label="Pet's Life Cycle";
+        style=dashed;
+        color=lightgrey;
+        Egg -> Baby -> Child -> Teenager -> Adult -> Senior -> Death;
+    }
+
+    // Actions and Effects
+    subgraph cluster_actions {
+        label="Actions and Effects";
+        style=dashed;
+        color=lightblue;
+        "Feed";
+        "Play";
+        "Medicine";
+        "Clean";
+        "Scold";
+        "Praise";
+        "Hunger Meter";
+        "Happy Meter";
+        "Health Meter";
+        "Behaviour Meter";
+    }
+}
