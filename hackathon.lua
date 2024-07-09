@@ -3,6 +3,8 @@
 local hackathon = {}
 
 function hackathon.load()
+    --setting seed
+    math.randomseed(os.time())
     --Sample prompts not what will actually be used
     hackathon.prompts = {
         {
