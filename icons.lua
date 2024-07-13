@@ -5,6 +5,12 @@ local iconPositions = {}
 local iconSelected = 1
 local iconScale = 0.35
 
+local lightOffIcon
+local lightOnIcon
+local lightIcon
+local lightIconScale = 0.3
+local lightOn = true  
+
 local backButton = {
     x = 100,
     y = 900,
@@ -34,12 +40,21 @@ function icon.load()
         love.graphics.newImage("assets/icons/medicine.png")
     }
 
+    lightOnIcon = love.graphics.newImage("assets/icons/light_on.png")
+    lightOffIcon = love.graphics.newImage("assets/icons/light_off.png")
+    lightIcon = lightOnIcon  
+
+    iconSelected = 1
+
     local iconSpacing = 320
     local iconX = 50
     for i, iconImg in ipairs(iconSprites) do
         table.insert(iconPositions, { x = iconX, y = 0 })
         iconX = iconX + iconSpacing
     end
+
+    table.insert(iconSprites, lightOnIcon)
+    table.insert(iconPositions, { x = 1300, y = 750 })
 end
 
 function icon.draw()
@@ -54,14 +69,16 @@ function icon.draw()
         end
     end
 
+    -- nav buttons
     love.graphics.setColor(1, 1, 1)
     love.graphics.rectangle("fill", backButton.x, backButton.y, backButton.width, backButton.height)
-
+    
     love.graphics.setColor(1, 1, 1)
     love.graphics.rectangle("fill", OKButton.x, OKButton.y, OKButton.width, OKButton.height)
-
+    
     love.graphics.setColor(1, 1, 1)
     love.graphics.rectangle("fill", forwardButton.x, forwardButton.y, forwardButton.width, forwardButton.height)
+
 end
 
 function icon.selectNext()
@@ -80,18 +97,30 @@ end
 
 function icon.executeAction()
     if iconSelected == 1 then
-        print("Clean action executed")
-        -- Add the action for the clean icon
+        -- clean func
     elseif iconSelected == 2 then
-        print("Food action executed")
-        -- Add the action for the food icon
+        -- eat func
     elseif iconSelected == 3 then
-        print("Game action executed")
-        -- Add the action for the game icon
+        -- game func
     elseif iconSelected == 4 then
-        print("Medicine action executed")
-        -- Add the action for the medicine icon
+        -- pill func
+    elseif iconSelected == 5 then
+        print("Toggle Light")
+        icon.toggleLight()
     end
+end
+
+function icon.toggleLight()
+    lightOn = not lightOn
+    if lightOn then
+        lightIcon = lightOnIcon
+    else
+        lightIcon = lightOffIcon
+    end
+end
+
+function icon.isLightOn()
+    return lightOn
 end
 
 function icon.mousepressed(x, y, button)
