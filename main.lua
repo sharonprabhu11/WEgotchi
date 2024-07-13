@@ -20,6 +20,12 @@ end
 function love.draw()
     love.graphics.draw(background, 0, 0)
 
+    if not icon.isLightOn() then
+        love.graphics.setColor(0, 0, 0)
+        love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+        love.graphics.setColor(1, 1, 1)  
+    end
+
     animation.draw()
     icon.draw()
 end
