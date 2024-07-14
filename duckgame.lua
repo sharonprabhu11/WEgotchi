@@ -1,104 +1,80 @@
-local girl
-local duck
-local background
-
--- Table to store ducks
-local ducks = {}
-
--- Variables to control the girl's position and speed
-local girlX = 400
-local girlY = 550
-local girlSpeed = 200
-
--- Duck falling speed
-local duckSpeed = 150
-
--- Scaling factors for the images
-local scale = 0.2
-
--- Minimum distance between ducks when they are spawned
-local minDuckSpacing = 50
-
--- Game over flag
-local gameOver = false
-
 local duckgame = {}
 
 function duckgame.load()
-    girl = love.graphics.newImage("assets/girl.png")
-    duck = love.graphics.newImage("assets/duck.png")
-    background = love.graphics.newImage("assets/backgroundDUCKGAME.png")
-    love.window.setMode(800, 600)
-    love.window.setTitle("Save the Girl from the Ducks!")
+    background = love.graphics.newImage("backgroundDUCKGAME.png")
+    girl = love.graphics.newImage("happyR.png")
+    duck = love.graphics.newImage("cuteduck.png")
+    
+    girlScaleFactor = 0.36
+    duckScaleFactor = 0.2
+    
+    girlWidth = girl:getWidth() * girlScaleFactor
+    girlHeight = girl:getHeight() * girlScaleFactor
+    girlX = (love.graphics.getWidth() - girlWidth) / 2
+    girlY = love.graphics.getHeight() - girlHeight
+    girlSpeed = 300
+    
+    ducks = {}
+    duckWidth = duck:getWidth() * duckScaleFactor
+    duckHeight = duck:getHeight() * duckScaleFactor
+    duckSpeed = 200
+    duckSpawnTime = 1
+    duckTimer = 0
+    
+    score = 0
+    gameFont = love.graphics.newFont(24)
+    gameMessage = "Avoid the falling ducks!"
 end
 
 function duckgame.update(dt)
-    if gameOver then
-        return
-    end
-
-    -- Move the girl left or right
     if love.keyboard.isDown("left") then
         girlX = girlX - girlSpeed * dt
     elseif love.keyboard.isDown("right") then
         girlX = girlX + girlSpeed * dt
     end
 
-    -- Keep the girl within the window bounds
-    if girlX < 0 then girlX = 0 end
-    if girlX > love.graphics.getWidth() - girl:getWidth() * scale then
-        girlX = love.graphics.getWidth() - girl:getWidth() * scale
+    if girlX < 0 then
+        girlX = 0
+    elseif girlX > love.graphics.getWidth() - girlWidth then
+        girlX = love.graphics.getWidth() - girlWidth
     end
 
-    -- Add a new duck every 1 second
-    if math.random() < dt then
-        local newDuckX = math.random(0, love.graphics.getWidth() - duck:getWidth() * scale)
-        
-        -- Ensure the new duck does not overlap with any existing ducks
-        local canAddDuck = true
-        for _, d in ipairs(ducks) do
-            if math.abs(d.x - newDuckX) < minDuckSpacing then
-                canAddDuck = false
-                break
-            end
-        end
-
-        if canAddDuck then
-            local newDuck = { x = newDuckX, y = -duck:getHeight() * scale }
-            table.insert(ducks, newDuck)
-        end
+    duckTimer = duckTimer - dt
+    if duckTimer <= 0 then
+        table.insert(ducks, {x = math.random(0, love.graphics.getWidth() - duckWidth), y = -duckHeight})
+        duckTimer = duckSpawnTime
     end
 
-    -- Move ducks down
     for i, d in ipairs(ducks) do
         d.y = d.y + duckSpeed * dt
 
-        -- Check for collision with the girl
-        if d.y + duck:getHeight() * scale > girlY and d.x + duck:getWidth() * scale > girlX and d.x < girlX + girl:getWidth() * scale then
-            gameOver = true
-            love.event.quit("Game Over: You got hit by a duck!")
+        if d.y + duckHeight > girlY and d.x < girlX + girlWidth and d.x + duckWidth > girlX then
+            gameMessage = "Oh no! You got hit by a duck! Final score: " .. score
+            love.timer.sleep(2)
+            love.event.quit()
         end
     end
 
-    -- Remove ducks that have fallen off the screen
     for i = #ducks, 1, -1 do
         if ducks[i].y > love.graphics.getHeight() then
             table.remove(ducks, i)
+            score = score + 1
+            gameMessage = "Nice dodge! Score: " .. score
         end
     end
 end
 
 function duckgame.draw()
     love.graphics.draw(background, 0, 0)
-    love.graphics.draw(girl, girlX, girlY, 0, scale, scale)
-    for _, d in ipairs(ducks) do
-        love.graphics.draw(duck, d.x, d.y, 0, scale, scale)
+    love.graphics.draw(girl, girlX, love.graphics.getHeight() - girlHeight, 0, girlScaleFactor, girlScaleFactor)
+    
+    for i, d in ipairs(ducks) do
+        love.graphics.draw(duck, d.x, d.y, 0, duckScaleFactor, duckScaleFactor)
     end
-    if gameOver then
-        love.graphics.setColor(1, 0, 0)
-        love.graphics.printf("Game Over!", 0, love.graphics.getHeight() / 2 - 30, love.graphics.getWidth(), "center")
-        love.graphics.setColor(1, 1, 1)
-    end
+    
+    love.graphics.setFont(gameFont)
+    love.graphics.print("Score: " .. score, 10, 10)
+    love.graphics.printf(gameMessage, 0, 50, love.graphics.getWidth(), "center")
 end
 
 return duckgame
