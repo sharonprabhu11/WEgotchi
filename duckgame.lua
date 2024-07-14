@@ -1,6 +1,6 @@
--- Load images for the girl and the duck
 local girl
 local duck
+local background
 
 -- Table to store ducks
 local ducks = {}
@@ -14,21 +14,29 @@ local girlSpeed = 200
 local duckSpeed = 150
 
 -- Scaling factors for the images
-local scale = 0.2  -- Slightly increased scale
+local scale = 0.2
 
 -- Minimum distance between ducks when they are spawned
 local minDuckSpacing = 50
 
--- Function to load assets
-function love.load()
-    girl = love.graphics.newImage("girl.jpeg")
-    duck = love.graphics.newImage("duck.jpeg")
+-- Game over flag
+local gameOver = false
+
+local duckgame = {}
+
+function duckgame.load()
+    girl = love.graphics.newImage("assets/girl.png")
+    duck = love.graphics.newImage("assets/duck.png")
+    background = love.graphics.newImage("assets/backgroundDUCKGAME.png")
     love.window.setMode(800, 600)
     love.window.setTitle("Save the Girl from the Ducks!")
 end
 
--- Function to update game state
-function love.update(dt)
+function duckgame.update(dt)
+    if gameOver then
+        return
+    end
+
     -- Move the girl left or right
     if love.keyboard.isDown("left") then
         girlX = girlX - girlSpeed * dt
@@ -67,6 +75,7 @@ function love.update(dt)
 
         -- Check for collision with the girl
         if d.y + duck:getHeight() * scale > girlY and d.x + duck:getWidth() * scale > girlX and d.x < girlX + girl:getWidth() * scale then
+            gameOver = true
             love.event.quit("Game Over: You got hit by a duck!")
         end
     end
@@ -79,11 +88,18 @@ function love.update(dt)
     end
 end
 
--- Function to draw everything
-function love.draw()
+function duckgame.draw()
+    love.graphics.draw(background, 0, 0)
     love.graphics.draw(girl, girlX, girlY, 0, scale, scale)
     for _, d in ipairs(ducks) do
         love.graphics.draw(duck, d.x, d.y, 0, scale, scale)
     end
+    if gameOver then
+        love.graphics.setColor(1, 0, 0)
+        love.graphics.printf("Game Over!", 0, love.graphics.getHeight() / 2 - 30, love.graphics.getWidth(), "center")
+        love.graphics.setColor(1, 1, 1)
+    end
 end
+
+return duckgame
 
