@@ -1,12 +1,27 @@
-local duckgame = {}
+local animation = require("animation")
+local icon = require("icons")
 
-function duckgame.load()
-    background = love.graphics.newImage("backgroundDUCKGAME.png")
+local background 
+local girl, duck
+local girlScaleFactor, duckScaleFactor
+local girlWidth, girlHeight, girlX, girlY, girlSpeed
+local ducks, duckWidth, duckHeight, duckSpeed, duckSpawnTime, duckTimer
+local score, gameFont, gameMessage
+
+function love.load()
+    love.window.setMode(1600, 1033)
+    love.window.setTitle("WEP✨")
+
+    animation.load()
+    icon.load()
+
+    background = love.graphics.newImage("assets/background.png")
+
     girl = love.graphics.newImage("happyR.png")
     duck = love.graphics.newImage("cuteduck.png")
     
-    girlScaleFactor = 0.36
-    duckScaleFactor = 0.2
+    girlScaleFactor = 0.36  
+    duckScaleFactor = 0.2   
     
     girlWidth = girl:getWidth() * girlScaleFactor
     girlHeight = girl:getHeight() * girlScaleFactor
@@ -26,7 +41,9 @@ function duckgame.load()
     gameMessage = "Avoid the falling ducks!"
 end
 
-function duckgame.update(dt)
+function love.update(dt)
+    animation.update(dt)
+    
     if love.keyboard.isDown("left") then
         girlX = girlX - girlSpeed * dt
     elseif love.keyboard.isDown("right") then
@@ -64,8 +81,18 @@ function duckgame.update(dt)
     end
 end
 
-function duckgame.draw()
+function love.draw()
     love.graphics.draw(background, 0, 0)
+
+    if not icon.isLightOn() then
+        love.graphics.setColor(0, 0, 0)
+        love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+        love.graphics.setColor(1, 1, 1)  
+    end
+
+    animation.draw()
+    icon.draw()
+
     love.graphics.draw(girl, girlX, love.graphics.getHeight() - girlHeight, 0, girlScaleFactor, girlScaleFactor)
     
     for i, d in ipairs(ducks) do
@@ -73,9 +100,12 @@ function duckgame.draw()
     end
     
     love.graphics.setFont(gameFont)
+    
     love.graphics.print("Score: " .. score, 10, 10)
     love.graphics.printf(gameMessage, 0, 50, love.graphics.getWidth(), "center")
 end
 
-return duckgame
+function love.mousepressed(x, y, button)
+    icon.mousepressed(x, y, button)
+end
 
