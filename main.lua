@@ -1,6 +1,5 @@
 local animation = require("animation")
 local icon = require("icons")
-local duckgame = require("duckgame")
 
 local background 
 
@@ -12,14 +11,10 @@ function love.load()
     icon.load()
 
     background = love.graphics.newImage("assets/background.png")
-
-    duckgame.load()
 end
 
 function love.update(dt)
     animation.update(dt)
-    
-    duckgame.update(dt)
 end
 
 function love.draw()
@@ -33,11 +28,8 @@ function love.draw()
 
     animation.draw()
     icon.draw()
-
-    duckgame.draw()
 end
 
 function love.mousepressed(x, y, button)
     icon.mousepressed(x, y, button)
 end
-
