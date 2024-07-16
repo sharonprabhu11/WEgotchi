@@ -1,5 +1,6 @@
 local animation = require("animation")
 local icon = require("icons")
+local eat = require("eat")
 
 local background 
 
@@ -9,12 +10,14 @@ function love.load()
 
     animation.load()
     icon.load()
+    eat.load()
 
     background = love.graphics.newImage("assets/background.png")
 end
 
 function love.update(dt)
     animation.update(dt)
+    eat.update(dt)
 end
 
 function love.draw()
@@ -22,11 +25,12 @@ function love.draw()
 
     if not icon.isLightOn() then
         love.graphics.setColor(0, 0, 0)
-        love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+        love.graphics.draw("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
         love.graphics.setColor(1, 1, 1)  
     end
 
     animation.draw()
+    eat.draw()
     icon.draw()
 end
 
