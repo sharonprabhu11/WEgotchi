@@ -1,4 +1,5 @@
 local icon = {}
+local eat = require("eat")
 
 local iconSprites = {}
 local iconPositions = {}
@@ -99,13 +100,12 @@ function icon.executeAction()
     if iconSelected == 1 then
         -- clean func
     elseif iconSelected == 2 then
-        -- eat func
+        eat.start()
     elseif iconSelected == 3 then
         -- game func
     elseif iconSelected == 4 then
         -- pill func
     elseif iconSelected == 5 then
-        print("Toggle Light")
         icon.toggleLight()
     end
 end
