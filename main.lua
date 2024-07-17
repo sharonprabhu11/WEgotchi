@@ -28,7 +28,7 @@ function love.draw()
 
     if not icon.isLightOn() then
         love.graphics.setColor(0, 0, 0)
-        love.graphics.draw("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+        love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
         love.graphics.setColor(1, 1, 1)  
     end
 
@@ -36,8 +36,8 @@ function love.draw()
     eat.draw()
     med.draw()
     icon.draw()
-
 end
+
 
 function love.mousepressed(x, y, button)
     icon.mousepressed(x, y, button)
