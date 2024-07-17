@@ -96,7 +96,7 @@ function med.update(dt)
 
     if showPill then
         pillTimer = pillTimer + dt
-        if pillTimer >= pillspeed then
+        if pillTimer >= pillSpeed then
             pillTimer = pillTimer - pillSpeed
             pillIndex = pillIndex % #pillSprites + 1
             currentPillSprite = pillSprites[pillIndex]
