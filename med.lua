@@ -38,8 +38,10 @@ local jumpIndex = 1
 function med.load()
     background = love.graphics.newImage("assets/background.png")
     healthyGirlSprite = love.graphics.newImage("assets/medicine/healthygirl.png")
-
-    table.insert(pillSprites, love.graphics.newImage("assets/medicine/pill.png"))
+    
+    for i = 1, 6 do
+        table.insert(pillSprites, love.graphics.newImage("assets/medicine/pill (".. i ..").png"))
+    end
 
     for i = 1, 5 do
         table.insert(injectionSprites, love.graphics.newImage("assets/medicine/injection (" .. i .. ").png"))
@@ -49,7 +51,7 @@ function med.load()
         table.insert(girlMedSprites, love.graphics.newImage("assets/medicine/girlmed (" .. i .. ").png"))
     end
 
-    currentPillSprite = pillSprites
+    currentPillSprite = pillSprites[1]
     currentInjectionSprite = injectionSprites[1]
     currentGirlMedSprite = girlMedSprites[1]
 
@@ -97,7 +99,7 @@ function med.update(dt)
         if pillTimer >= pillspeed then
             pillTimer = pillTimer - pillSpeed
             pillIndex = pillIndex % #pillSprites + 1
-            currentPillSprite = pillSprites
+            currentPillSprite = pillSprites[pillIndex]
         end
     end
 
