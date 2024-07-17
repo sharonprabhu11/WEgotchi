@@ -1,6 +1,7 @@
 local animation = require("animation")
 local icon = require("icons")
 local eat = require("eat")
+local med = require("med")
 
 local background 
 
@@ -11,6 +12,7 @@ function love.load()
     animation.load()
     icon.load()
     eat.load()
+    med.load()
 
     background = love.graphics.newImage("assets/background.png")
 end
@@ -18,6 +20,7 @@ end
 function love.update(dt)
     animation.update(dt)
     eat.update(dt)
+    med.update(dt)
 end
 
 function love.draw()
@@ -31,7 +34,9 @@ function love.draw()
 
     animation.draw()
     eat.draw()
+    med.draw()
     icon.draw()
+
 end
 
 function love.mousepressed(x, y, button)
