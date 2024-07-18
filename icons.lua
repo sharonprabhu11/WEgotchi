@@ -1,5 +1,6 @@
 local icon = {}
 local eat = require("eat")
+local med = require("med")
 
 local iconSprites = {}
 local iconPositions = {}
