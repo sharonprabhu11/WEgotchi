@@ -1,6 +1,5 @@
 local icon = {}
 local eat = require("eat")
-local med = require("med")
 
 local iconSprites = {}
 local iconPositions = {}
@@ -12,6 +11,7 @@ local lightOnIcon
 local lightIcon
 local lightIconScale = 0.3
 local lightOn = true  
+local sleepImage
 
 local backButton = {
     x = 100,
@@ -46,6 +46,8 @@ function icon.load()
     lightOffIcon = love.graphics.newImage("assets/icons/light_off.png")
     lightIcon = lightOnIcon  
 
+    sleepImage = love.graphics.newImage("assets/girl/sleep.png")
+
     iconSelected = 1
 
     local iconSpacing = 320
@@ -55,33 +57,42 @@ function icon.load()
         iconX = iconX + iconSpacing
     end
 
-    table.insert(iconSprites, lightOnIcon)
+    table.insert(iconSprites, lightIcon)
     table.insert(iconPositions, { x = 1300, y = 750 })
 end
 
 function icon.draw()
-    for i, iconImg in ipairs(iconSprites) do
-        local scale = iconScale
-        if i == iconSelected then
-            scale = iconScale * 1.1
+    if not lightOn then
+        love.graphics.setColor(0.1, 0.1, 0.1)
+        love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+        -- love.graphics.setColor(1, 1, 1)
+        love.graphics.draw(lightOffIcon, 1305, 750, 0, 0.38)
+    else
+        for i, iconImg in ipairs(iconSprites) do
+            local scale = iconScale
+            if i == iconSelected then
+                scale = iconScale * 1.1
+            end
+            love.graphics.draw(iconImg, iconPositions[i].x, iconPositions[i].y, 0, scale)
+            if i == iconSelected then
+                love.graphics.rectangle("line", iconPositions[i].x, iconPositions[i].y + 10, iconImg:getWidth() * scale, iconImg:getHeight() * scale)
+            end
         end
-        love.graphics.draw(iconImg, iconPositions[i].x, iconPositions[i].y, 0, scale)
-        if i == iconSelected then
-            love.graphics.rectangle("line", iconPositions[i].x, iconPositions[i].y + 10, iconImg:getWidth() * scale, iconImg:getHeight() * scale)
-        end
-    end
 
-    -- nav buttons
-    love.graphics.setColor(1, 1, 1)
-    love.graphics.rectangle("fill", backButton.x, backButton.y, backButton.width, backButton.height)
-    
+        -- forward/back nav buttons
+        love.graphics.setColor(1, 1, 1)
+        love.graphics.rectangle("fill", backButton.x, backButton.y, backButton.width, backButton.height)
+        
+        love.graphics.setColor(1, 1, 1)
+        love.graphics.rectangle("fill", forwardButton.x, forwardButton.y, forwardButton.width, forwardButton.height)
+    end
+    -- ok buttons 
     love.graphics.setColor(1, 1, 1)
     love.graphics.rectangle("fill", OKButton.x, OKButton.y, OKButton.width, OKButton.height)
     
-    love.graphics.setColor(1, 1, 1)
-    love.graphics.rectangle("fill", forwardButton.x, forwardButton.y, forwardButton.width, forwardButton.height)
 
 end
+
 
 function icon.selectNext()
     iconSelected = iconSelected + 1
