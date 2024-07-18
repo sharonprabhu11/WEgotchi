@@ -1,5 +1,6 @@
 local animation = require("animation")
 local icon = require("icons")
+local health_meter = require("health_meter")
 local eat = require("eat")
 local med = require("med")
 
@@ -11,6 +12,7 @@ function love.load()
 
     animation.load()
     icon.load()
+    health_meter.load()
     eat.load()
     med.load()
 
@@ -19,6 +21,7 @@ end
 
 function love.update(dt)
     animation.update(dt)
+    health_meter.update(dt)
     eat.update(dt)
     med.update(dt)
 end
@@ -34,6 +37,7 @@ function love.draw()
 
     icon.draw()
     animation.draw()
+    health_meter.draw()
     eat.draw()
     med.draw()
 end
