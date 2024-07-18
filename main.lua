@@ -32,10 +32,10 @@ function love.draw()
         love.graphics.setColor(1, 1, 1)  
     end
 
+    icon.draw()
     animation.draw()
     eat.draw()
     med.draw()
-    icon.draw()
 end
 
 
