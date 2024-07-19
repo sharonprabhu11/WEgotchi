@@ -1,6 +1,7 @@
 local icon = {}
 local eat = require("eat")
 local med = require("med")
+local game = require("game")
 
 local iconSprites = {}
 local iconPositions = {}
@@ -11,8 +12,10 @@ local lightOffIcon
 local lightOnIcon
 local lightIcon
 local lightIconScale = 0.3
-local lightOn = true  
+local lightOn = true
 local sleepImage
+
+local gameIconClicked = false
 
 local backButton = {
     x = 100,
@@ -66,7 +69,6 @@ function icon.draw()
     if not lightOn then
         love.graphics.setColor(0.1, 0.1, 0.1)
         love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
-        -- love.graphics.setColor(1, 1, 1)
         love.graphics.draw(lightOffIcon, 1305, 750, 0, 0.38)
     else
         for i, iconImg in ipairs(iconSprites) do
@@ -115,7 +117,7 @@ function icon.executeAction()
     elseif iconSelected == 2 then
         eat.start()
     elseif iconSelected == 3 then
-        -- game func
+        game.start()
     elseif iconSelected == 4 then
         med.start()
     elseif iconSelected == 5 then
@@ -134,6 +136,10 @@ end
 
 function icon.isLightOn()
     return lightOn
+end
+
+function icon.shouldStartGame()
+    return iconSelected == 3
 end
 
 function icon.mousepressed(x, y, button)
