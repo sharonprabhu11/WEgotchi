@@ -10,6 +10,7 @@ local bgWidth, bgHeight
 local windowWidth, windowHeight
 local scaleX, scaleY
 local gameActive = false  -- Track if the game is active
+local endTimer = 0 -- Timer to control the end of game message display
 
 function game.load()
     -- Load assets
@@ -46,10 +47,17 @@ function game.start()
     duckTimer = duckSpawnTime
     score = 0
     gameMessage = "Avoid the falling ducks!"
+    endTimer = 0 -- Reset endTimer
 end
 
 function game.update(dt)
-    if not gameActive then return end
+    if not gameActive then
+        endTimer = endTimer - dt
+        if endTimer <= 0 then
+            -- Handle transition back to main menu or restart game here
+        end
+        return
+    end
 
     if love.keyboard.isDown("left") then
         girlX = girlX - girlSpeed * dt
@@ -74,8 +82,8 @@ function game.update(dt)
 
         if d.y + duckHeight > girlY and d.x < girlX + girlWidth and d.x + duckWidth > girlX then
             gameMessage = "Oh no! You got hit by a duck! Final score: " .. score
-            love.timer.sleep(2)
-            love.event.quit()
+            gameActive = false
+            endTimer = 3 
         end
     end
 
@@ -83,13 +91,13 @@ function game.update(dt)
         if ducks[i].y > love.graphics.getHeight() then
             table.remove(ducks, i)
             score = score + 1
-            gameMessage = "Nice dodge! Score: " .. score
+            gameMessage = "Nice dodge! "
         end
     end
 end
 
 function game.draw()
-    if not gameActive then return end
+    if not gameActive and endTimer <= 0 then return end
 
     love.graphics.draw(background, 0, 0, 0, scaleX, scaleY)
     love.graphics.draw(girl, girlX, girlY, 0, girlScaleFactor, girlScaleFactor)
