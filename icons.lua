@@ -15,7 +15,7 @@ local lightIconScale = 0.3
 local lightOn = true
 local sleepImage
 
-local gameIconClicked = false
+local eatIconClicked = false
 
 local backButton = {
     x = 100,
@@ -115,6 +115,7 @@ function icon.executeAction()
     if iconSelected == 1 then
         -- clean func
     elseif iconSelected == 2 then
+        eatIconClicked = true  
         eat.start()
     elseif iconSelected == 3 then
         game.start()
@@ -159,6 +160,14 @@ function icon.mousepressed(x, y, button)
             icon.executeAction()
         end
     end
+end
+
+function icon.resetEatIconClicked()
+    eatIconClicked = false
+end
+
+function icon.isEatIconClicked()
+    return eatIconClicked
 end
 
 return icon
