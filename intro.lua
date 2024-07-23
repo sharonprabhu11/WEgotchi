@@ -10,7 +10,7 @@ we trust you, okay tc! ]]
 local introduck
 local rotate
 local introduckX, introduckY
-local changePositionInterval = 3
+local changePositionInterval = 1
 local timer = 0
 
 local okayButton = {x = 750, y = 800, width = 100, height = 50}
