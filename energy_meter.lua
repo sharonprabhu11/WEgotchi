@@ -2,6 +2,7 @@ local energy = {}
 
 local icon = require("icons")
 
+
 local energy_meter = {}
 local energy_meter_percent = 100
 local current_energy_meter_sprite
@@ -18,7 +19,10 @@ function energy.update(dt)
         increaseEnergy(5)
     end
 
-
+    if icon.isMedIconClicked() then
+        increaseEnergy(100)
+    icon.resetMedIconClicked()
+    end
 
     local decrease_rate = 2
     energy_meter_percent = energy_meter_percent - dt * decrease_rate

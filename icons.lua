@@ -16,6 +16,7 @@ local lightOn = true
 local sleepImage
 
 local eatIconClicked = false
+local gameIconClicked = false
 
 local backButton = {
     x = 100,
@@ -118,8 +119,10 @@ function icon.executeAction()
         eatIconClicked = true  
         eat.start()
     elseif iconSelected == 3 then
+        gameIconClicked = true
         game.start()
     elseif iconSelected == 4 then
+        medIconClicked = true
         med.start()
     elseif iconSelected == 5 then
         icon.toggleLight()
@@ -169,5 +172,22 @@ end
 function icon.isEatIconClicked()
     return eatIconClicked
 end
+
+function icon.resetGameIconClicked()
+    gameIconClicked = false
+end
+
+function icon.isGameIconClicked()
+    return gameIconClicked
+end
+
+function icon.resetMedIconClicked()
+    medIconClicked = false
+end
+
+function icon.isMedIconClicked()
+    return medIconClicked
+end
+
 
 return icon

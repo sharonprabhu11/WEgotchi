@@ -9,8 +9,8 @@ local score, gameFont, gameMessage
 local bgWidth, bgHeight
 local windowWidth, windowHeight
 local scaleX, scaleY
-local gameActive = false  -- Track if the game is active
-local endTimer = 0 -- Timer to control the end of game message display
+local gameActive = false  
+local endTimer = 0 
 
 function game.load()
     -- Load assets
@@ -54,7 +54,6 @@ function game.update(dt)
     if not gameActive then
         endTimer = endTimer - dt
         if endTimer <= 0 then
-            -- Handle transition back to main menu or restart game here
         end
         return
     end
