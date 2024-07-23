@@ -1,4 +1,6 @@
-local icon = {}
+-- icons.lua
+
+local icons = {}
 local eat = require("eat")
 local med = require("med")
 local game = require("game")
@@ -14,6 +16,7 @@ local lightIcon
 local lightIconScale = 0.3
 local lightOn = true
 local sleepImage
+local bgnight
 
 local eatIconClicked = false
 local gameIconClicked = false
@@ -39,7 +42,7 @@ local forwardButton = {
     height = 50
 }
 
-function icon.load()
+function icons.load()
     iconSprites = {
         love.graphics.newImage("assets/icons/clean.png"),
         love.graphics.newImage("assets/icons/food.png"),
@@ -49,9 +52,10 @@ function icon.load()
 
     lightOnIcon = love.graphics.newImage("assets/icons/light_on.png")
     lightOffIcon = love.graphics.newImage("assets/icons/light_off.png")
-    lightIcon = lightOnIcon  
+    lightIcon = lightOnIcon
 
     sleepImage = love.graphics.newImage("assets/girl/sleep.png")
+    bgnight = love.graphics.newImage("assets/bgnight.png") -- Load the background image
 
     iconSelected = 1
 
@@ -66,10 +70,10 @@ function icon.load()
     table.insert(iconPositions, { x = 1300, y = 750 })
 end
 
-function icon.draw()
+function icons.draw()
     if not lightOn then
-        love.graphics.setColor(0.1, 0.1, 0.1)
-        love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+        love.graphics.setColor(1, 1, 1) -- Reset color to white to ensure the image is drawn correctly
+        love.graphics.draw(bgnight, 0, 0) -- Draw the background image
         love.graphics.draw(lightOffIcon, 1305, 750, 0, 0.38)
     else
         for i, iconImg in ipairs(iconSprites) do
@@ -86,33 +90,30 @@ function icon.draw()
         -- forward/back nav buttons
         love.graphics.setColor(1, 1, 1)
         love.graphics.rectangle("fill", backButton.x, backButton.y, backButton.width, backButton.height)
-        
+
         love.graphics.setColor(1, 1, 1)
         love.graphics.rectangle("fill", forwardButton.x, forwardButton.y, forwardButton.width, forwardButton.height)
     end
     -- ok buttons 
     love.graphics.setColor(1, 1, 1)
     love.graphics.rectangle("fill", OKButton.x, OKButton.y, OKButton.width, OKButton.height)
-    
-
 end
 
-
-function icon.selectNext()
+function icons.selectNext()
     iconSelected = iconSelected + 1
     if iconSelected > #iconSprites then
         iconSelected = 1
     end
 end
 
-function icon.selectPrevious()
+function icons.selectPrevious()
     iconSelected = iconSelected - 1
     if iconSelected < 1 then
         iconSelected = #iconSprites
     end
 end
 
-function icon.executeAction()
+function icons.executeAction()
     if iconSelected == 1 then
         -- clean func
     elseif iconSelected == 2 then
@@ -125,11 +126,11 @@ function icon.executeAction()
         medIconClicked = true
         med.start()
     elseif iconSelected == 5 then
-        icon.toggleLight()
+        icons.toggleLight()
     end
 end
 
-function icon.toggleLight()
+function icons.toggleLight()
     lightOn = not lightOn
     if lightOn then
         lightIcon = lightOnIcon
@@ -138,56 +139,56 @@ function icon.toggleLight()
     end
 end
 
-function icon.isLightOn()
+function icons.isLightOn()
     return lightOn
 end
 
-function icon.shouldStartGame()
+function icons.shouldStartGame()
     return iconSelected == 3
 end
 
-function icon.mousepressed(x, y, button)
+function icons.mousepressed(x, y, button)
     if button == 1 then
         if x >= backButton.x and x <= backButton.x + backButton.width and
            y >= backButton.y and y <= backButton.y + backButton.height then
-            icon.selectPrevious()
+            icons.selectPrevious()
         end
 
         if x >= forwardButton.x and x <= forwardButton.x + forwardButton.width and
            y >= forwardButton.y and y <= forwardButton.y + forwardButton.height then
-            icon.selectNext()
+            icons.selectNext()
         end
 
         if x >= OKButton.x and x <= OKButton.x + OKButton.width and
            y >= OKButton.y and y <= OKButton.y + OKButton.height then
-            icon.executeAction()
+            icons.executeAction()
         end
     end
 end
 
-function icon.resetEatIconClicked()
+function icons.resetEatIconClicked()
     eatIconClicked = false
 end
 
-function icon.isEatIconClicked()
+function icons.isEatIconClicked()
     return eatIconClicked
 end
 
-function icon.resetGameIconClicked()
+function icons.resetGameIconClicked()
     gameIconClicked = false
 end
 
-function icon.isGameIconClicked()
+function icons.isGameIconClicked()
     return gameIconClicked
 end
 
-function icon.resetMedIconClicked()
+function icons.resetMedIconClicked()
     medIconClicked = false
 end
 
-function icon.isMedIconClicked()
+function icons.isMedIconClicked()
     return medIconClicked
 end
 
+return icons
 
-return icon
