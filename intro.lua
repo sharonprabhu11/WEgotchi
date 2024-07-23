@@ -1,4 +1,3 @@
--- intro.lua
 local intro = {}
 
 local font
@@ -8,15 +7,33 @@ soooo, it is up to you, yes, you to look after her
 make sure our future leader is well fed, clean, takes her medicine, relaxed and MOST IMPORTANTLY - WELL RESTED!
 
 we trust you, okay tc! ]]
+
+local introduck
+local rotate
+local introduckX, introduckY
+local changePositionInterval = 3
+local timer = 0
+
 local okayButton = {x = 750, y = 800, width = 100, height = 50}
 local showIntro = true
 
 function intro.load(pixelFont)
     font = pixelFont
+    introduck = love.graphics.newImage("assets/introduck.png")
+    introduckX = math.random(0, love.graphics.getWidth())
+    introduckY = math.random(0, love.graphics.getHeight())
 end
 
 function intro.update(dt)
-
+    if showIntro then
+        timer = timer + dt
+        if timer >= changePositionInterval then
+            timer = 0
+            introduckX = math.random(0, love.graphics.getWidth() - introduck:getWidth())
+            introduckY = math.random(0, love.graphics.getHeight() - introduck:getHeight())
+            rotate = math.random(1, 5)
+        end
+    end
 end
 
 function intro.draw()
@@ -28,6 +45,9 @@ function intro.draw()
         love.graphics.rectangle("fill", okayButton.x, okayButton.y, okayButton.width, okayButton.height)
         love.graphics.setColor(1, 1, 1)
         love.graphics.printf("okay", okayButton.x, okayButton.y + 3, okayButton.width, "center")
+        
+        -- INTRODUCK!!!
+        love.graphics.draw(introduck, introduckX, introduckY, rotate, 0.4)
     end
 end
 
