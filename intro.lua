@@ -1,11 +1,10 @@
 local intro = {}
 
 local font
-local message = [[our little WE gurly is preparing for her long journey ahead as a woman in STEM!
-while she's busy brushing up on her collatz sequence, she might forget to eat or take a shower (it's completely normal, we promise)
+local message = [[Our little WE gurly is preparing for her long journey ahead as a woman in STEM!
+While she's busy brushing up on her collatz sequence, she might forget to eat or take a shower (it's completely normal, we promise)
 soooo, it is up to you, yes, you to look after her
 make sure our future leader is well fed, clean, takes her medicine, relaxed and MOST IMPORTANTLY - WELL RESTED!
-
 we trust you, okay tc! ]]
 
 local introduck
