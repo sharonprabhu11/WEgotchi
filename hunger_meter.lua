@@ -45,7 +45,7 @@ function increaseHunger(amount)
 end
 
 function hunger.draw()
-    love.graphics.draw(current_hunger_meter_sprite, 1125, 13, 0, 0.85)
+    love.graphics.draw(current_hunger_meter_sprite, 1117, 13, 0, 0.85)
 end
 
 return hunger
