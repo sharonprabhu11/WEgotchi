@@ -10,6 +10,7 @@ local game = require("game")
 
 local background
 local pixelFont
+local bgnight
 
 function love.load()
     love.window.setMode(1600, 1033)
@@ -28,6 +29,7 @@ function love.load()
     game.load()
 
     background = love.graphics.newImage("assets/background.png")
+    bgnight = love.graphics.newImage("assets/bgnight.png") -- Load the night background image
 end
 
 function love.update(dt)
@@ -49,12 +51,10 @@ function love.draw()
         love.graphics.clear(1, 1, 0.8)
         intro.draw()
     else
-        love.graphics.draw(background, 0, 0)
-
-        if not icon.isLightOn() then
-            love.graphics.setColor(0, 0, 0)
-            love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
-            love.graphics.setColor(1, 1, 1)
+        if icon.isLightOn() then
+            love.graphics.draw(background, 0, 0)
+        else
+            love.graphics.draw(bgnight, 0, 0) -- Draw the night background when light is off
         end
 
         icon.draw()
@@ -77,3 +77,4 @@ function love.mousepressed(x, y, button)
         icon.mousepressed(x, y, button)
     end
 end
+
