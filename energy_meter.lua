@@ -49,7 +49,7 @@ function increaseEnergy(amount)
 end
 
 function energy.draw()
-    love.graphics.draw(current_energy_meter_sprite, 1205, 13, 0, 0.85)
+    love.graphics.draw(current_energy_meter_sprite, 1212, 13, 0, 0.85)
 end
 
 return energy
