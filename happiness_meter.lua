@@ -44,7 +44,7 @@ function increaseHappy(amount)
 end
 
 function happy.draw()
-    love.graphics.draw(current_happy_meter_sprite, 1290, 13, 0, 0.85)
+    love.graphics.draw(current_happy_meter_sprite, 1310, 10, 0, 0.85)
 end
 
 return happy
