@@ -96,3 +96,20 @@ Handles character animations based on the character's state and interactions.
   - `anim.load()`: Loads the sprites.
   - `anim.update(dt)`: Updates the animation frame based on the timer and light state.
   - `anim.draw()`: Draws the current sprite or sleep sprite based on the light state.
+
+### 2. `eat.lua`
+
+Manages the eating animation and logic for the character.
+
+- **Properties and Variables:**
+  - `chaiSprites`, `cookiesSprites`, `girlEatSprites`: Tables holding different animation frames for eating actions.
+  - `currentChaiSprite`, `currentCookiesSprite`, `currentGirlEatSprite`: Currently displayed sprites.
+  - `showChai`, `showCookies`, `showGirlEat`, `showGirlSatisfied`: Flags to control the display of different animations.
+  - `eatTimer`, `eatDuration`: Control the duration of the eating process.
+  - `jumpYPositions`, `jumpTimer`, `jumpDuration`, `jumpIndex`: Control the "satisfied jump" animation.
+
+- **Functions:**
+  - `eat.load()`: Loads the sprites and initializes positions for jump animation.
+  - `eat.start()`: Randomly starts either chai or cookies animation and initiates the eating process.
+  - `eat.update(dt)`: Updates the animation frames and timers.
+  - `eat.draw()`: Draws the appropriate sprites based on the current animation state.
