@@ -79,3 +79,20 @@ end
 ###Coroutines
 We explored coroutines to handle time-based events and asynchronous tasks within the game. This was particularly useful for creating a responsive and interactive game experience.
 
+## Key Components and Functionalities
+
+### 1. `animation.lua`
+
+Handles character animations based on the character's state and interactions.
+
+- **Properties and Variables:**
+  - `girlSprites`: Table holding the character's sprite images.
+  - `currentSprite`: Currently displayed sprite.
+  - `showAnimation`: Flag to control animation display.
+  - `animationTimer`, `animationSpeed`, `animationIndex`: Control animation timing and frame switching.
+  - `sleep`: Sprite for the sleeping state.
+
+- **Functions:**
+  - `anim.load()`: Loads the sprites.
+  - `anim.update(dt)`: Updates the animation frame based on the timer and light state.
+  - `anim.draw()`: Draws the current sprite or sleep sprite based on the light state.
