@@ -29,4 +29,13 @@ pet = {
     health = 100
 }
 
+#### User Interactions
+We implemented functions to handle user interactions like feeding, playing, and taking the pet to the doctor. Each interaction affects the pet's attributes.
+
+**Example:**
+```lua
+function feedPet()
+    pet.hunger = pet.hunger - 10
+    pet.happiness = pet.happiness + 5
+end
 
