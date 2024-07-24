@@ -215,3 +215,8 @@ Displays the introductory message and instructions for the game.
   - `intro.update(dt)`: Updates the position of the introduction sprite.
   - `intro.draw()`: Draws the introduction message and sprite.
   - `intro.mousepressed(x, y, button)`: Handles mouse clicks on the OK button.
+
+## Conclusion
+
+Developing the Tamagotchi Game in Lua has been a rewarding learning experience. We hope this documentation helps others understand our process and inspires them to explore Lua for their own projects. Feel free to explore the codebase and contribute to the project!
+
