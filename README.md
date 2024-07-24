@@ -175,3 +175,27 @@ Controls the hunger meter, which decreases over time and can be replenished.
   - `hunger.update(dt)`: Updates the hunger level and corresponding sprite based on time and interactions.
   - `increaseHunger(amount)`: Increases the hunger level by a specified amount.
   - `hunger.draw()`: Draws the current hunger meter sprite.
+
+### 7. `icons.lua`
+
+Manages the interactive icons for various actions like eating, playing, and turning off the lights.
+
+- **Properties and Variables:**
+  - `iconSprites`, `iconPositions`: Tables holding the icon sprites and their positions.
+  - `iconSelected`: Index of the currently selected icon.
+  - `lightOnIcon`, `lightOffIcon`, `lightIcon`: Sprites for the light state.
+  - `lightOn`: Boolean flag for the light state.
+  - `eatIconClicked`, `gameIconClicked`, `medIconClicked`: Flags for icon clicks.
+
+- **Functions:**
+  - `icons.load()`: Loads the icon sprites and initializes their positions.
+  - `icons.draw()`: Draws the icons on the screen.
+  - `icons.selectNext()`, `icons.selectPrevious()`: Functions to navigate through icons.
+  - `icons.executeAction()`: Executes the action associated with the selected icon.
+  - `icons.toggleLight()`: Toggles the light state.
+  - `icons.isLightOn()`: Returns the current light state.
+  - `icons.mousepressed(x, y, button)`: Handles mouse clicks on icons.
+  - `icons.resetEatIconClicked()`, `icons.isEatIconClicked()`: Functions to manage the eat icon state.
+  - `icons.resetGameIconClicked()`, `icons.isGameIconClicked()`: Functions to manage the game icon state.
+  - `icons.resetMedIconClicked()`, `icons.isMedIconClicked()`: Functions to manage the med icon state.
+
