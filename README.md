@@ -41,7 +41,7 @@ function feedPet()
 end
 ```
 
-##Lua Concepts Used In This Game
+## Lua Concepts Used In This Game
 
 ### Tables
 Tables are a fundamental part of Lua and were used extensively to manage the pet's attributes and game states.
