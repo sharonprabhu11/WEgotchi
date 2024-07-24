@@ -1,9 +1,32 @@
-# Tamagotchi
+# Tamagotchi Game
 
-Creating a Tamagotchi game using Lua and Lov2d
+## Introduction
+Welcome to this game project we created! This project was developed by our team as part of our effort to create a girl simulation game as an ode to the WOMEN ENGINEER'S PROGRAM. The game is implemented in Lua, and this README provides a comprehensive guide to how the game was developed, including our learning process and the specific Lua concepts we utilized.
 
-Our main objectives are:
-1)To learn a new language - Lua and get familiarised with it
-2)To learn to work in groups with a time crunch and with all the members living in different states and having different schedules.
+## Learning Process
+
+### Getting Started with Lua
+
+#### Understanding the Basics
+We began by familiarizing ourselves with the basics of Lua, including syntax, variables, loops, and functions. Resources like the official Lua documentation and online tutorials were invaluable.
+
+#### Setting Up the Development Environment
+We set up our development environment using tools like LuaRocks for package management and ZeroBrane Studio as our IDE for Lua development.
+
+### Figuring Out Different Sections of the Code
+
+#### Game Structure
+We structured our game into multiple modules, each handling a specific aspect of the game. This modular approach made the codebase more manageable and easier to debug.
+
+#### Pet Attributes and Behaviors
+We defined various attributes for the Tamagotchi pet, such as hunger, happiness, and health. Each attribute was implemented as a variable that could change over time based on player interactions.
+
+**Example:**
+```lua
+pet = {
+    hunger = 100,
+    happiness = 100,
+    health = 100
+}
 
 
