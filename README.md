@@ -220,3 +220,20 @@ Displays the introductory message and instructions for the game.
 
 Developing the Tamagotchi Game in Lua has been a rewarding learning experience. We hope this documentation helps others understand our process and inspires them to explore Lua for their own projects. Feel free to explore the codebase and contribute to the project!
 
+## How to Run the Game
+
+1. Clone the repository:
+    ```bash
+    git clone <repository_url>
+    ```
+
+2. Navigate to the project directory:
+    ```bash
+    cd tamagotchi-game
+    ```
+
+3. Run the game:
+    ```bash
+    lua main.lua
+    ```
+
