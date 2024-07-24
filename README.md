@@ -145,3 +145,20 @@ Implements a mini-game where the character dodges falling ducks.
   - `game.start()`: Initializes the game state and starts the game.
   - `game.update(dt)`: Updates the game logic, including movement and collision detection.
   - `game.draw()`: Draws the game elements on the screen.
+
+### 5. `happiness_meter.lua`
+
+Controls the happiness meter, which decreases over time and can be replenished.
+
+- **Properties and Variables:**
+  - `happy_meter`: Table holding the sprites for different happiness levels.
+  - `happy_meter_percent`: Current happiness percentage.
+  - `current_happy_meter_sprite`: Sprite representing the current happiness level.
+
+- **Functions:**
+  - `happy.load()`: Loads the happiness meter sprites.
+  - `happy.update(dt)`: Updates the happiness level and corresponding sprite based on time and interactions.
+  - `increaseHappy(amount)`: Increases the happiness level by a specified amount.
+  - `happy.draw()`: Draws the current happiness meter sprite.
+
+
