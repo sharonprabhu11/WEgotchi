@@ -113,3 +113,18 @@ Manages the eating animation and logic for the character.
   - `eat.start()`: Randomly starts either chai or cookies animation and initiates the eating process.
   - `eat.update(dt)`: Updates the animation frames and timers.
   - `eat.draw()`: Draws the appropriate sprites based on the current animation state.
+
+### 3. `energy_meter.lua`
+
+Controls the energy meter, which decreases over time and can be replenished.
+
+- **Properties and Variables:**
+  - `energy_meter`: Table holding the sprites for different energy levels.
+  - `energy_meter_percent`: Current energy percentage.
+  - `current_energy_meter_sprite`: Sprite representing the current energy level.
+
+- **Functions:**
+  - `energy.load()`: Loads the energy meter sprites.
+  - `energy.update(dt)`: Updates the energy level and corresponding sprite based on time and interactions.
+  - `increaseEnergy(amount)`: Increases the energy level by a specified amount.
+  - `energy.draw()`: Draws the current energy meter sprite.
