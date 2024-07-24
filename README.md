@@ -28,6 +28,7 @@ pet = {
     happiness = 100,
     health = 100
 }
+```
 
 #### User Interactions
 We implemented functions to handle user interactions like feeding, playing, and taking the pet to the doctor. Each interaction affects the pet's attributes.
@@ -38,4 +39,5 @@ function feedPet()
     pet.hunger = pet.hunger - 10
     pet.happiness = pet.happiness + 5
 end
+```
 
