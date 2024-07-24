@@ -161,4 +161,17 @@ Controls the happiness meter, which decreases over time and can be replenished.
   - `increaseHappy(amount)`: Increases the happiness level by a specified amount.
   - `happy.draw()`: Draws the current happiness meter sprite.
 
+### 6. `hunger_meter.lua`
 
+Controls the hunger meter, which decreases over time and can be replenished.
+
+- **Properties and Variables:**
+  - `hunger_meter`: Table holding the sprites for different hunger levels.
+  - `hunger_meter_percent`: Current hunger percentage.
+  - `current_hunger_meter_sprite`: Sprite representing the current hunger level.
+
+- **Functions:**
+  - `hunger.load()`: Loads the hunger meter sprites.
+  - `hunger.update(dt)`: Updates the hunger level and corresponding sprite based on time and interactions.
+  - `increaseHunger(amount)`: Increases the hunger level by a specified amount.
+  - `hunger.draw()`: Draws the current hunger meter sprite.
