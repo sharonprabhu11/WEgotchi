@@ -128,3 +128,20 @@ Controls the energy meter, which decreases over time and can be replenished.
   - `energy.update(dt)`: Updates the energy level and corresponding sprite based on time and interactions.
   - `increaseEnergy(amount)`: Increases the energy level by a specified amount.
   - `energy.draw()`: Draws the current energy meter sprite.
+
+### 4. `game.lua`
+
+Implements a mini-game where the character dodges falling ducks.
+
+- **Properties and Variables:**
+  - `background`, `girl`, `duck`: Sprites for the game.
+  - `girlX`, `girlY`, `girlWidth`, `girlHeight`, `girlSpeed`: Properties controlling the girl's position and movement.
+  - `ducks`, `duckWidth`, `duckHeight`, `duckSpeed`, `duckSpawnTime`, `duckTimer`: Control the ducks' properties and spawning mechanics.
+  - `score`, `gameFont`, `gameMessage`: Game score and messaging.
+  - `scaleX`, `scaleY`: Scaling factors for the background.
+
+- **Functions:**
+  - `game.load()`: Loads game assets and initializes properties.
+  - `game.start()`: Initializes the game state and starts the game.
+  - `game.update(dt)`: Updates the game logic, including movement and collision detection.
+  - `game.draw()`: Draws the game elements on the screen.
