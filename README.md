@@ -198,4 +198,20 @@ Manages the interactive icons for various actions like eating, playing, and turn
   - `icons.resetEatIconClicked()`, `icons.isEatIconClicked()`: Functions to manage the eat icon state.
   - `icons.resetGameIconClicked()`, `icons.isGameIconClicked()`: Functions to manage the game icon state.
   - `icons.resetMedIconClicked()`, `icons.isMedIconClicked()`: Functions to manage the med icon state.
+### 8. `intro.lua`
 
+Displays the introductory message and instructions for the game.
+
+- **Properties and Variables:**
+  - `font`, `message`: Font and message for the introduction.
+  - `introduck`, `introduckX`, `introduckY`: Sprite and position for a moving introduction element.
+  - `rotate`: Rotation variable for the introduction element.
+  - `changePositionInterval`, `timer`: Control the timing of position changes.
+  - `okayButton`: Properties for the OK button.
+  - `showIntro`: Flag to control the display of the introduction.
+
+- **Functions:**
+  - `intro.load(pixelFont)`: Loads the font and introduction sprite.
+  - `intro.update(dt)`: Updates the position of the introduction sprite.
+  - `intro.draw()`: Draws the introduction message and sprite.
+  - `intro.mousepressed(x, y, button)`: Handles mouse clicks on the OK button.
