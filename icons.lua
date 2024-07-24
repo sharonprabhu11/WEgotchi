@@ -55,7 +55,7 @@ function icons.load()
     lightIcon = lightOnIcon
 
     sleepImage = love.graphics.newImage("assets/girl/sleep.png")
-    bgnight = love.graphics.newImage("assets/bgnight.png") -- Load the background image
+    bgnight = love.graphics.newImage("assets/bgnight.png") 
 
     iconSelected = 1
 
@@ -72,8 +72,8 @@ end
 
 function icons.draw()
     if not lightOn then
-        love.graphics.setColor(1, 1, 1) -- Reset color to white to ensure the image is drawn correctly
-        love.graphics.draw(bgnight, 0, 0) -- Draw the background image
+        love.graphics.setColor(1, 1, 1) 
+        love.graphics.draw(bgnight, -350, -150, 0, 2.4) 
         love.graphics.draw(lightOffIcon, 1305, 750, 0, 0.38)
     else
         for i, iconImg in ipairs(iconSprites) do
