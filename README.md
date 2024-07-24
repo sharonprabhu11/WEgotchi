@@ -236,4 +236,7 @@ Developing the Tamagotchi Game in Lua has been a rewarding learning experience. 
     ```bash
     lua main.lua
     ```
+## Contributions
+
+We welcome contributions from the community! If you have any ideas for improvements or new features, feel free to open an issue or submit a pull request.
 
