@@ -41,3 +41,41 @@ function feedPet()
 end
 ```
 
+##Lua Concepts Used In This Game
+
+### Tables
+Tables are a fundamental part of Lua and were used extensively to manage the pet's attributes and game states.
+
+**Example:**
+```lua
+pet = {
+    hunger = 100,
+    happiness = 100,
+    health = 100
+}
+```
+### Functions
+We used functions to encapsulate behaviors and actions within the game. This made our code modular and reusable.
+
+**Example:**
+```lua
+function playWithPet()
+    pet.happiness = pet.happiness + 10
+    pet.health = pet.health - 5
+end
+```
+### Loops and Conditionals
+Loops and conditionals were used to manage the game flow and update the pet's status over time.
+
+**Example:**
+```lua
+while true do
+    updatePetStatus()
+    if pet.hunger > 50 then
+        print("Your pet is hungry!")
+    end
+end
+```
+###Coroutines
+We explored coroutines to handle time-based events and asynchronous tasks within the game. This was particularly useful for creating a responsive and interactive game experience.
+
