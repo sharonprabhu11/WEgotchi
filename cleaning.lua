@@ -42,6 +42,8 @@ local jumpDuration = 0.75
 local jumpIndex = 1
 
 function cleaning.load()
+    
+    background = love.graphics.newImage("assets/background.png")
     happyGirlSprite = love.graphics.newImage("assets/newcleaning/happygirl.png")
     
     for i = 1, 4 do
@@ -153,18 +155,19 @@ function cleaning.draw()
     end
 
     if showClouds then
-        love.graphics.draw(currentCloudSprite, 500, 400)
+        love.graphics.draw(currentCloudSprite, 400, 430, 0, 1.3)
     end
 
     if showSoap then
-        love.graphics.draw(currentSoapSprite, 600, 450)
+        love.graphics.draw(currentSoapSprite, 700, 350, 0, 0.5)
     end
 
     if showBubbles then
-        love.graphics.draw(currentBubbleSprite, 650, 350)
+        love.graphics.draw(currentBubbleSprite, 600, 430, 0, 0.6)
     end
 
     if showGirlHappy then
+        love.graphics.draw(background, 0, 0)
         love.graphics.draw(happyGirlSprite, 550, satisfiedY)
     end
 end
