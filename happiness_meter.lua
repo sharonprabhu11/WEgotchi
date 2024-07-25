@@ -48,6 +48,10 @@ function increaseHappy(amount)
     end
 end
 
+function happy.percentage()
+    return happy_meter_percent
+end
+
 function happy.draw()
     love.graphics.draw(current_happy_meter_sprite, 1310, 10, 0, 0.85)
 end
