@@ -7,6 +7,7 @@ local happy = require("happiness_meter")
 local eat = require("eat")
 local med = require("med")
 local game = require("game")
+local saveData = require("saveData")
 
 local background
 local pixelFont
@@ -30,6 +31,16 @@ function love.load()
 
     background = love.graphics.newImage("assets/background.png")
     bgnight = love.graphics.newImage("assets/bgnight.png") -- Load the night background image
+
+    local savedData = saveData.loadData()
+    if savedData then
+        local currentTime = os.time()
+        local elapsedTime = currentTime - savedData.time
+
+        hunger.setPercentage(savedData.hungerPercent, elapsedTime)
+        energy.setPercentage(savedData.energyPercent, elapsedTime)
+        happy.setPercentage(savedData.happyPercent, elapsedTime)
+    end
 end
 
 function love.update(dt)
@@ -76,5 +87,15 @@ function love.mousepressed(x, y, button)
     else
         icon.mousepressed(x, y, button)
     end
+end
+
+function love.quit()
+    local data = {
+        time = os.time(),
+        hungerPercent = hunger.percentage(),
+        energyPercent = energy.percentage(),
+        happyPercent = happy.percentage()
+    }
+    saveData.saveData(data)
 end
 
