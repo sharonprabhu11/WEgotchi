@@ -18,8 +18,10 @@ local lightOn = true
 local sleepImage
 local bgnight
 
+local medIconClicked = false
 local eatIconClicked = false
 local gameIconClicked = false
+local cleanIconClicked = false
 
 local backButton = {
     x = 100,
@@ -115,7 +117,8 @@ end
 
 function icons.executeAction()
     if iconSelected == 1 then
-        -- clean func
+        cleanIconClicked = true
+        -- clean.start()
     elseif iconSelected == 2 then
         eatIconClicked = true  
         eat.start()
@@ -190,5 +193,12 @@ function icons.isMedIconClicked()
     return medIconClicked
 end
 
+function icons.resetCleanIconClicked()
+    cleanIconClicked = false
+end
+
+function icons.isCleanIconClicked()
+    return cleanIconClicked
+end
 return icons
 
