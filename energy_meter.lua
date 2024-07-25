@@ -50,8 +50,19 @@ function energy.percentage()
     return energy_meter_percent
 end
 
+function energy.setPercentage(percent, elapsedTime)
+    local decrease_rate_per_second = 2 / 60
+    energy_meter_percent = percent - (elapsedTime * decrease_rate_per_second)
+    if energy_meter_percent < 0 then
+        energy_meter_percent = 0
+    elseif energy_meter_percent > 100 then
+        energy_meter_percent = 100
+    end
+end
+
 function energy.draw()
     love.graphics.draw(current_energy_meter_sprite, 1212, 13, 0, 0.85)
 end
 
 return energy
+
