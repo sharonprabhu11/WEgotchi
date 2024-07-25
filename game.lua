@@ -20,94 +20,104 @@ function game.load()
     scaleX = windowWidth / bgWidth
     scaleY = windowHeight / bgHeight
 
-    girl = love.graphics.newImage("assets/girl/happyR.png")
+    girl = love.graphics.newImage("assets/girl.png")
     duck = love.graphics.newImage("assets/duck.png")
-    
-    girlScaleFactor = 0.36  
-    duckScaleFactor = 0.2   
-    
-    girlWidth = girl:getWidth() * girlScaleFactor
-    girlHeight = girl:getHeight() * girlScaleFactor
-    girlSpeed = 300
-    
-    duckWidth = duck:getWidth() * duckScaleFactor
-    duckHeight = duck:getHeight() * duckScaleFactor
-    duckSpeed = 200
-    duckSpawnTime = 1
-    
-    gameFont = love.graphics.newFont(24)
+
+    girlWidth, girlHeight = girl:getDimensions()
+    girlX = 100
+    girlY = windowHeight / 2
+    girlSpeed = 300 
+
+    duckWidth, duckHeight = duck:getDimensions()
+    ducks = {}
+    duckSpeed = 200 
+    duckSpawnTime = 1.5 
+    duckTimer = duckSpawnTime 
+
+    score = 0
+    gameFont = love.graphics.newFont(30)
+    love.graphics.setFont(gameFont)
+
+    gameMessage = ""
 end
 
 function game.start()
-    -- Initialize game state
     gameActive = true
-    girlX = (love.graphics.getWidth() - girlWidth) / 2
-    girlY = love.graphics.getHeight() - girlHeight
+    score = 0
     ducks = {}
     duckTimer = duckSpawnTime
-    score = 0
-    gameMessage = "Avoid the falling ducks!"
-    endTimer = 0 -- Reset endTimer
+    gameMessage = ""
 end
 
 function game.update(dt)
     if not gameActive then
-        endTimer = endTimer - dt
-        if endTimer <= 0 then
-        end
         return
     end
 
-    if love.keyboard.isDown("left") then
-        girlX = girlX - girlSpeed * dt
-    elseif love.keyboard.isDown("right") then
-        girlX = girlX + girlSpeed * dt
+    girlY = girlY + (girlSpeed * dt)
+    if love.keyboard.isDown("w") then
+        girlY = girlY - (girlSpeed * dt * 2)
+    elseif love.keyboard.isDown("s") then
+        girlY = girlY + (girlSpeed * dt * 2)
     end
 
-    if girlX < 0 then
-        girlX = 0
-    elseif girlX > love.graphics.getWidth() - girlWidth then
-        girlX = love.graphics.getWidth() - girlWidth
+    if girlY < 0 then
+        girlY = 0
+    elseif girlY > windowHeight - girlHeight then
+        girlY = windowHeight - girlHeight
     end
 
     duckTimer = duckTimer - dt
     if duckTimer <= 0 then
-        table.insert(ducks, {x = math.random(0, love.graphics.getWidth() - duckWidth), y = -duckHeight})
         duckTimer = duckSpawnTime
+        local newDuck = {x = windowWidth, y = love.math.random(0, windowHeight - duckHeight)}
+        table.insert(ducks, newDuck)
     end
 
     for i, d in ipairs(ducks) do
-        d.y = d.y + duckSpeed * dt
-
-        if d.y + duckHeight > girlY and d.x < girlX + girlWidth and d.x + duckWidth > girlX then
-            gameMessage = "Oh no! You got hit by a duck! Final score: " .. score
-            gameActive = false
-            endTimer = 3 
+        d.x = d.x - (duckSpeed * dt)
+        if d.x < -duckWidth then
+            table.remove(ducks, i)
+            score = score - 1
+        elseif d.x < girlX + girlWidth and d.y < girlY + girlHeight and girlX < d.x + duckWidth and girlY < d.y + duckHeight then
+            table.remove(ducks, i)
+            score = score + 1
         end
     end
 
-    for i = #ducks, 1, -1 do
-        if ducks[i].y > love.graphics.getHeight() then
-            table.remove(ducks, i)
-            score = score + 1
-            gameMessage = "Nice dodge! "
-        end
+    if score >= 10 then 
+        gameActive = false 
+        gameMessage = "You win!"
+        endTimer = love.timer.getTime() + 3
+    elseif score <= -5 then
+        gameActive = false
+        gameMessage = "You lose!"
+        endTimer = love.timer.getTime() + 3
+    end
+
+    if not gameActive and love.timer.getTime() > endTimer then
+        gameMessage = ""
     end
 end
 
 function game.draw()
-    if not gameActive and endTimer <= 0 then return end
+    love.graphics.push()
+    love.graphics.scale(scaleX, scaleY)
+    love.graphics.draw(background, 0, 0)
+    love.graphics.pop()
 
-    love.graphics.draw(background, 0, 0, 0, scaleX, scaleY)
-    love.graphics.draw(girl, girlX, girlY, 0, girlScaleFactor, girlScaleFactor)
-    
+    love.graphics.draw(girl, girlX, girlY)
+
     for i, d in ipairs(ducks) do
-        love.graphics.draw(duck, d.x, d.y, 0, duckScaleFactor, duckScaleFactor)
+        love.graphics.draw(duck, d.x, d.y)
     end
-    
-    love.graphics.setFont(gameFont)
+
     love.graphics.print("Score: " .. score, 10, 10)
-    love.graphics.printf(gameMessage, 0, 50, love.graphics.getWidth(), "center")
+
+    if not gameActive and gameMessage ~= "" then
+        love.graphics.printf(gameMessage, 0, windowHeight / 2 - 50, windowWidth, "center")
+    end
 end
 
 return game
+
