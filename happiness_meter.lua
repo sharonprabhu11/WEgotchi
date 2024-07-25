@@ -20,6 +20,11 @@ function happy.update(dt)
         icon.resetGameIconClicked()
     end
 
+    if icon.isCleanIconClicked() then
+        increaseHappy(100)
+        icon.resetGameIconClicked()
+    end
+
     local decrease_rate = 2
     happy_meter_percent = happy_meter_percent - dt * decrease_rate
     if happy_meter_percent < 0 then
