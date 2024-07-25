@@ -76,6 +76,7 @@ end
 
 function anim.draw()
     if gameOver then
+        love.graphics.draw(currentSprite, 550, 425)
         drawDeathPopup()
         return
     end
