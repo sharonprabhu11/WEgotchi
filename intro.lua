@@ -13,14 +13,13 @@ local introduckX, introduckY
 local changePositionInterval = 1
 local timer = 0
 
-local okayButton = {x = 750, y = 800, width = 100, height = 50}
+local okayButton = {x = 0, y = 0, width = 200, height = 100}  -- Adjusted for scaling
 local showIntro = true
 
 function intro.load(pixelFont)
     font = pixelFont
     introduck = love.graphics.newImage("assets/introduck.png")
-    introduckX = math.random(0, love.graphics.getWidth())
-    introduckY = math.random(0, love.graphics.getHeight())
+    intro.updatePositions()
 end
 
 function intro.update(dt)
@@ -28,8 +27,7 @@ function intro.update(dt)
         timer = timer + dt
         if timer >= changePositionInterval then
             timer = 0
-            introduckX = math.random(0, love.graphics.getWidth() - introduck:getWidth())
-            introduckY = math.random(0, love.graphics.getHeight() - introduck:getHeight())
+            intro.updatePositions()
             rotate = math.random(1, 5)
         end
     end
@@ -39,14 +37,14 @@ function intro.draw()
     if showIntro then
         love.graphics.setFont(font)
         love.graphics.setColor(0.8, 0.6, 0.2)
-        love.graphics.printf(message, 400, 180, 800, "center")
+        love.graphics.printf(message, love.graphics.getWidth() * 0.1, love.graphics.getHeight() * 0.1, love.graphics.getWidth() * 0.8, "center")
         love.graphics.setColor(0.8, 0.6, 0.2)
         love.graphics.rectangle("fill", okayButton.x, okayButton.y, okayButton.width, okayButton.height)
         love.graphics.setColor(1, 1, 1)
-        love.graphics.printf("okay", okayButton.x, okayButton.y + 3, okayButton.width, "center")
+        love.graphics.printf("okay", okayButton.x, okayButton.y + 20, okayButton.width, "center")
         
-        -- INTRODUCK!!!
-        love.graphics.draw(introduck, introduckX, introduckY, rotate, 0.4)
+        -- Draw INTRODUCK with scaling
+        love.graphics.draw(introduck, introduckX, introduckY, rotate, 0.4, 0.4)
     end
 end
 
@@ -62,4 +60,16 @@ function intro.isActive()
     return showIntro
 end
 
+function intro.updatePositions()
+    introduckX = math.random(0, love.graphics.getWidth() - introduck:getWidth() * 0.4)
+    introduckY = math.random(0, love.graphics.getHeight() - introduck:getHeight() * 0.4)
+    okayButton.x = love.graphics.getWidth() / 2 - okayButton.width / 2
+    okayButton.y = love.graphics.getHeight() - okayButton.height - 50
+end
+
+function love.resize(w, h)
+    intro.updatePositions()
+end
+
 return intro
+
