@@ -6,6 +6,7 @@ local energy = require("energy_meter")
 local happy = require("happiness_meter")
 local eat = require("eat")
 local med = require("med")
+local cleaning = require("cleaning")
 local game = require("game")
 
 local background
@@ -26,6 +27,7 @@ function love.load()
     happy.load()
     eat.load()
     med.load()
+    cleaning.load()
     game.load()
 
     background = love.graphics.newImage("assets/background.png")
@@ -42,6 +44,7 @@ function love.update(dt)
         happy.update(dt)
         eat.update(dt)
         med.update(dt)
+        cleaning.update(dt) 
         game.update(dt)
     end
 end
@@ -64,6 +67,7 @@ function love.draw()
         happy.draw()
         eat.draw()
         med.draw()
+        cleaning.draw()
         game.draw()
 
         love.graphics.setFont(pixelFont)
