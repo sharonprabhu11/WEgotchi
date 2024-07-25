@@ -8,6 +8,8 @@ local eat = require("eat")
 local med = require("med")
 local cleaning = require("cleaning")
 local game = require("game")
+local sleep = require("sleep")
+local saveData = require("saveData")
 
 local background
 local pixelFont
@@ -29,9 +31,20 @@ function love.load()
     med.load()
     cleaning.load()
     game.load()
+    sleep.load()
 
     background = love.graphics.newImage("assets/background.png")
     bgnight = love.graphics.newImage("assets/bgnight.png") -- Load the night background image
+
+    local savedData = saveData.loadData()
+    if savedData then
+        local currentTime = os.time()
+        local elapsedTime = currentTime - savedData.time
+
+        hunger.setPercentage(savedData.hungerPercent, elapsedTime)
+        energy.setPercentage(savedData.energyPercent, elapsedTime)
+        happy.setPercentage(savedData.happyPercent, elapsedTime)
+    end
 end
 
 function love.update(dt)
@@ -46,6 +59,7 @@ function love.update(dt)
         med.update(dt)
         cleaning.update(dt) 
         game.update(dt)
+        sleep.update(dt)
     end
 end
 
@@ -57,7 +71,7 @@ function love.draw()
         if icon.isLightOn() then
             love.graphics.draw(background, 0, 0)
         else
-            love.graphics.draw(bgnight, 0, 0) -- Draw the night background when light is off
+            love.graphics.draw(bgnight, 0, 0) 
         end
 
         icon.draw()
@@ -69,6 +83,7 @@ function love.draw()
         med.draw()
         cleaning.draw()
         game.draw()
+        sleep.draw()
 
         love.graphics.setFont(pixelFont)
     end
@@ -80,5 +95,15 @@ function love.mousepressed(x, y, button)
     else
         icon.mousepressed(x, y, button)
     end
+end
+
+function love.quit()
+    local data = {
+        time = os.time(),
+        hungerPercent = hunger.percentage(),
+        energyPercent = energy.percentage(),
+        happyPercent = happy.percentage()
+    }
+    saveData.saveData(data)
 end
 
