@@ -7,6 +7,7 @@ local happy = require("happiness_meter")
 local eat = require("eat")
 local med = require("med")
 local game = require("game")
+local sleep = require("sleep")
 
 local background
 local pixelFont
@@ -27,6 +28,7 @@ function love.load()
     eat.load()
     med.load()
     game.load()
+    sleep.load()
 
     background = love.graphics.newImage("assets/background.png")
     bgnight = love.graphics.newImage("assets/bgnight.png") -- Load the night background image
@@ -43,6 +45,7 @@ function love.update(dt)
         eat.update(dt)
         med.update(dt)
         game.update(dt)
+        sleep.update(dt)
     end
 end
 
@@ -54,7 +57,7 @@ function love.draw()
         if icon.isLightOn() then
             love.graphics.draw(background, 0, 0)
         else
-            love.graphics.draw(bgnight, 0, 0) -- Draw the night background when light is off
+            love.graphics.draw(bgnight, 0, 0) 
         end
 
         icon.draw()
@@ -65,6 +68,7 @@ function love.draw()
         eat.draw()
         med.draw()
         game.draw()
+        sleep.draw()
 
         love.graphics.setFont(pixelFont)
     end
