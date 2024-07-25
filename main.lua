@@ -13,7 +13,7 @@ local pixelFont
 local bgnight
 
 function love.load()
-    love.window.setMode(1600, 1033)
+    love.window.setMode(1600, 1033, {resizable = true, minwidth = 800, minheight = 600})
     love.window.setTitle("WEP✨")
 
     pixelFont = love.graphics.newFont("assets/fonts/pixelfont.otf", 20)
@@ -76,5 +76,18 @@ function love.mousepressed(x, y, button)
     else
         icon.mousepressed(x, y, button)
     end
+end
+
+function love.resize(w, h)
+    -- Reinitialize elements with new dimensions
+    intro.load(pixelFont)
+    icon.load()
+    animation.load()
+    hunger.load()
+    energy.load()
+    happy.load()
+    eat.load()
+    med.load()
+    game.load()
 end
 
