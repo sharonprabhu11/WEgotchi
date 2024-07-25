@@ -35,6 +35,8 @@ local jumpTimer = 0
 local jumpDuration = 0.75
 local jumpIndex = 1
 
+local windowWidth, windowHeight
+
 function eat.load()
     background = love.graphics.newImage("assets/background.png")
     satisfiedGirlSprite = love.graphics.newImage("assets/eat/satisfied.png")
@@ -57,26 +59,27 @@ function eat.load()
 
     -- jump positions array
     satisfiedY = 425  
-    
+
     for y = 425, 325, -5 do
         table.insert(jumpYPositions, y)
     end
-    
+
     for y = 325, 425, 5 do
         table.insert(jumpYPositions, y)
     end
 
+    windowWidth, windowHeight = love.graphics.getDimensions()
 end
 
 function eat.start()
     local randomChoice = love.math.random(1, 2)
-    
+
     if randomChoice == 1 then
         showChai = true
     else
         showCookies = true
     end
-    
+
     showGirlEat = true
     eatTimer = 0
 end
@@ -122,7 +125,6 @@ function eat.update(dt)
     end
 
     if showGirlSatisfied then
-
         jumpTimer = jumpTimer + dt
         local progress = jumpTimer / jumpDuration
         local positionIndex = math.floor(progress * (#jumpYPositions - 1)) + 1
@@ -135,6 +137,8 @@ function eat.update(dt)
 end
 
 function eat.draw()
+    love.graphics.push()
+    love.graphics.scale(windowWidth / 1920, windowHeight / 1080) -- Assuming original design resolution is 1920x1080
     if showGirlEat then
         love.graphics.draw(background, 0, 0)
         love.graphics.draw(currentGirlEatSprite, 550, 425)
@@ -152,6 +156,8 @@ function eat.draw()
         love.graphics.draw(background, 0, 0)
         love.graphics.draw(satisfiedGirlSprite, 550, satisfiedY)
     end
+    love.graphics.pop()
 end
 
 return eat
+
