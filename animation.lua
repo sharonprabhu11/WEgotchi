@@ -44,9 +44,7 @@ function anim.update(dt)
             currentSprite = girlSprites.dead
             gameOver = true
         else
-            if happiness.percentage() < 30 then
-                currentSprite = (direction == "L") and girlSprites.stinkyL or girlSprites.stinkyR
-            elseif totalPercent <= 20 then
+            if totalPercent <= 20 then
                 currentSprite = (direction == "L") and girlSprites.cryL or girlSprites.cryR
             elseif totalPercent <= 40 then
                 currentSprite = (direction == "L") and girlSprites.sadL or girlSprites.sadR
@@ -54,6 +52,9 @@ function anim.update(dt)
                 currentSprite = (direction == "L") and girlSprites.neutL or girlSprites.neutR
             else
                 currentSprite = (direction == "L") and girlSprites.happyL or girlSprites.happyR
+            end
+            if happiness.percentage() < 30 then
+                currentSprite = (direction == "L") and girlSprites.stinkyL or girlSprites.stinkyR
             end
         end
 
