@@ -16,13 +16,13 @@ end
 
 function happy.update(dt)
     if icon.isGameIconClicked() then
-            increaseHappy(100)
+        increaseHappy(100)
         icon.resetGameIconClicked()
     end
 
     if icon.isCleanIconClicked() then
         increaseHappy(100)
-        icon.resetGameIconClicked()
+        icon.resetCleanIconClicked()
     end
 
     local decrease_rate = 2
