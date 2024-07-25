@@ -44,6 +44,10 @@ function increaseHunger(amount)
     end
 end
 
+function hunger.percentage()
+    return hunger_meter_percent
+end
+
 function hunger.draw()
     love.graphics.draw(current_hunger_meter_sprite, 1117, 13, 0, 0.85)
 end
