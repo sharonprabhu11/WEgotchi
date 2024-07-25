@@ -2,16 +2,18 @@ local energy = {}
 
 local icon = require("icons")
 
-
 local energy_meter = {}
 local energy_meter_percent = 100
 local current_energy_meter_sprite
+
+local windowWidth, windowHeight
 
 function energy.load()
     for i = 1, 5 do
         energy_meter[i] = love.graphics.newImage("assets/meters/energy_meter (" .. i .. ").png")
     end
     current_energy_meter_sprite = energy_meter[1]
+    windowWidth, windowHeight = love.graphics.getDimensions()
 end
 
 function energy.update(dt)
@@ -21,7 +23,7 @@ function energy.update(dt)
 
     if icon.isMedIconClicked() then
         increaseEnergy(100)
-    icon.resetMedIconClicked()
+        icon.resetMedIconClicked()
     end
 
     local decrease_rate = 2
@@ -29,7 +31,6 @@ function energy.update(dt)
     if energy_meter_percent < 0 then
         energy_meter_percent = 0
     end
-
 
     local meter_index = math.ceil((energy_meter_percent / 100) * #energy_meter)
     if meter_index < 1 then
@@ -49,7 +50,11 @@ function increaseEnergy(amount)
 end
 
 function energy.draw()
+    love.graphics.push()
+    love.graphics.scale(windowWidth / 1920, windowHeight / 1080) -- Assuming original design resolution is 1920x1080
     love.graphics.draw(current_energy_meter_sprite, 1212, 13, 0, 0.85)
+    love.graphics.pop()
 end
 
 return energy
+
