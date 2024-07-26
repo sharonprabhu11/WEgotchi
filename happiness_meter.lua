@@ -16,13 +16,13 @@ end
 
 function happy.update(dt)
     if icon.isGameIconClicked() then
-            increaseHappy(100)
+        increaseHappy(100)
         icon.resetGameIconClicked()
     end
 
     if icon.isCleanIconClicked() then
         increaseHappy(100)
-        icon.resetGameIconClicked()
+        icon.resetCleanIconClicked()
     end
 
     local decrease_rate = 2
@@ -48,8 +48,23 @@ function increaseHappy(amount)
     end
 end
 
+function happy.percentage()
+    return happy_meter_percent
+end
+
+function happy.setPercentage(percent, elapsedTime)
+    local decrease_rate_per_second = 2 / 60
+    happy_meter_percent = percent - (elapsedTime * decrease_rate_per_second)
+    if happy_meter_percent < 0 then
+        happy_meter_percent = 0
+    elseif happy_meter_percent > 100 then
+        happy_meter_percent = 100
+    end
+end
+
 function happy.draw()
     love.graphics.draw(current_happy_meter_sprite, 1310, 10, 0, 0.85)
 end
 
 return happy
+

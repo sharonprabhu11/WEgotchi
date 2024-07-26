@@ -6,12 +6,10 @@ local energy = require("energy_meter")
 local happy = require("happiness_meter")
 local eat = require("eat")
 local med = require("med")
+local cleaning = require("cleaning")
 local game = require("game")
+local saveData = require("saveData")
 
-local introMusic = '/audio/intro.mp3'
-local buttonMusic = '/audio/button.wav'
-local mainGameMusic = '/audio/maingame.mp3'
-local nightMusic = '/audio/snoring.mp3'
 
 local background
 local pixelFont
@@ -35,6 +33,7 @@ function love.load()
     happy.load()
     eat.load()
     med.load()
+    cleaning.load()
     game.load()
 
     introSource = love.audio.newSource(introMusic, "stream")
@@ -42,12 +41,17 @@ function love.load()
     love.audio.play(introSource)
 
     background = love.graphics.newImage("assets/background.png")
-    bgnight = love.graphics.newImage("assets/bgnight.png")
+    bgnight = love.graphics.newImage("assets/bgnight.png") -- Load the night background image
 
-    mainGameSource = love.audio.newSource(mainGameMusic, "stream")
-    mainGameSource:setLooping(true)
+    local savedData = saveData.loadData()
+    if savedData then
+        local currentTime = os.time()
+        local elapsedTime = currentTime - savedData.time
 
-    nightMusicSource = nil
+        hunger.setPercentage(savedData.hungerPercent, elapsedTime)
+        energy.setPercentage(savedData.energyPercent, elapsedTime)
+        happy.setPercentage(savedData.happyPercent, elapsedTime)
+    end
 end
 
 function love.update(dt)
@@ -83,6 +87,7 @@ function love.update(dt)
         happy.update(dt)
         eat.update(dt)
         med.update(dt)
+        cleaning.update(dt) 
         game.update(dt)
     end
 end
@@ -95,7 +100,7 @@ function love.draw()
         if icon.isLightOn() then
             love.graphics.draw(background, 0, 0)
         else
-            love.graphics.draw(bgnight, 0, 0)
+            love.graphics.draw(bgnight, 0, 0) 
         end
 
         icon.draw()
@@ -105,6 +110,7 @@ function love.draw()
         happy.draw()
         eat.draw()
         med.draw()
+        cleaning.draw()
         game.draw()
 
         love.graphics.setFont(pixelFont)
@@ -128,3 +134,14 @@ function love.mousepressed(x, y, button)
         end
     end
 end
+
+function love.quit()
+    local data = {
+        time = os.time(),
+        hungerPercent = hunger.percentage(),
+        energyPercent = energy.percentage(),
+        happyPercent = happy.percentage()
+    }
+    saveData.saveData(data)
+end
+

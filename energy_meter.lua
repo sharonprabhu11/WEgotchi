@@ -2,7 +2,6 @@ local energy = {}
 
 local icon = require("icons")
 
-
 local energy_meter = {}
 local energy_meter_percent = 100
 local current_energy_meter_sprite
@@ -21,7 +20,7 @@ function energy.update(dt)
 
     if icon.isMedIconClicked() then
         increaseEnergy(100)
-    icon.resetMedIconClicked()
+        icon.resetMedIconClicked()
     end
 
     local decrease_rate = 2
@@ -29,7 +28,6 @@ function energy.update(dt)
     if energy_meter_percent < 0 then
         energy_meter_percent = 0
     end
-
 
     local meter_index = math.ceil((energy_meter_percent / 100) * #energy_meter)
     if meter_index < 1 then
@@ -48,8 +46,23 @@ function increaseEnergy(amount)
     end
 end
 
+function energy.percentage()
+    return energy_meter_percent
+end
+
+function energy.setPercentage(percent, elapsedTime)
+    local decrease_rate_per_second = 2 / 60
+    energy_meter_percent = percent - (elapsedTime * decrease_rate_per_second)
+    if energy_meter_percent < 0 then
+        energy_meter_percent = 0
+    elseif energy_meter_percent > 100 then
+        energy_meter_percent = 100
+    end
+end
+
 function energy.draw()
     love.graphics.draw(current_energy_meter_sprite, 1212, 13, 0, 0.85)
 end
 
 return energy
+

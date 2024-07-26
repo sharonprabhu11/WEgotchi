@@ -2,6 +2,7 @@ local icons = {}
 local eat = require("eat")
 local med = require("med")
 local game = require("game")
+local clean = require("cleaning")
 
 local iconSprites = {}
 local iconPositions = {}
@@ -116,7 +117,7 @@ end
 function icons.executeAction()
     if iconSelected == 1 then
         cleanIconClicked = true
-        -- clean.start()
+        clean.start()
     elseif iconSelected == 2 then
         eatIconClicked = true  
         eat.start()

@@ -42,8 +42,23 @@ function increaseHunger(amount)
     end
 end
 
+function hunger.percentage()
+    return hunger_meter_percent
+end
+
+function hunger.setPercentage(percent, elapsedTime)
+    local decrease_rate_per_second = 2 / 60
+    hunger_meter_percent = percent - (elapsedTime * decrease_rate_per_second)
+    if hunger_meter_percent < 0 then
+        hunger_meter_percent = 0
+    elseif hunger_meter_percent > 100 then
+        hunger_meter_percent = 100
+    end
+end
+
 function hunger.draw()
     love.graphics.draw(current_hunger_meter_sprite, 1117, 13, 0, 0.85)
 end
 
 return hunger
+
