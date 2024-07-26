@@ -35,6 +35,9 @@ local jumpTimer = 0
 local jumpDuration = 0.75
 local jumpIndex = 1
 
+local eatSound = '/audio/eating.mp3'
+local eatSoundSource = nil
+
 function eat.load()
     background = love.graphics.newImage("assets/background.png")
     satisfiedGirlSprite = love.graphics.newImage("assets/eat/satisfied.png")
@@ -57,15 +60,14 @@ function eat.load()
 
     -- jump positions array
     satisfiedY = 425  
-    
+
     for y = 425, 325, -5 do
         table.insert(jumpYPositions, y)
     end
-    
+
     for y = 325, 425, 5 do
         table.insert(jumpYPositions, y)
     end
-
 end
 
 function eat.start()
@@ -79,6 +81,17 @@ function eat.start()
     
     showGirlEat = true
     eatTimer = 0
+
+    -- Pause main game music and play eating sound
+    if mainGameSource and mainGameSource:isPlaying() then
+        mainGameSource:pause()
+    end
+
+    if not eatSoundSource or not eatSoundSource:isPlaying() then
+        eatSoundSource = love.audio.newSource(eatSound, "stream")
+        eatSoundSource:setLooping(true)
+        eatSoundSource:play()
+    end
 end
 
 function eat.update(dt)
@@ -91,6 +104,15 @@ function eat.update(dt)
             showGirlSatisfied = true
             jumpTimer = 0
             jumpIndex = 1
+
+            -- Stop eating sound and resume main game music
+            if eatSoundSource and eatSoundSource:isPlaying() then
+                eatSoundSource:stop()
+            end
+
+            if mainGameSource then
+                mainGameSource:play()
+            end
         end
     end
 
@@ -122,7 +144,6 @@ function eat.update(dt)
     end
 
     if showGirlSatisfied then
-
         jumpTimer = jumpTimer + dt
         local progress = jumpTimer / jumpDuration
         local positionIndex = math.floor(progress * (#jumpYPositions - 1)) + 1

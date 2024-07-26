@@ -12,6 +12,13 @@ local scaleX, scaleY
 local gameActive = false  
 local endTimer = 0 
 
+local gameMusic = '/audio/minigame.mp3'
+local loseMusic = '/audio/gamelose.mp3'
+
+local introSource
+local mainGameSource
+local gameSource
+
 function game.load()
     -- Load assets
     background = love.graphics.newImage("assets/gamebackground.png")
@@ -38,22 +45,42 @@ function game.load()
     gameFont = love.graphics.newFont(24)
 end
 
-function game.start()
+function game.start(mainGameMusicSource)
     -- Initialize game state
     gameActive = true
+    
+    -- Stop intro music if it's playing
+    if introSource and introSource:isPlaying() then
+        introSource:stop()
+    end
+
+    -- Pause main game music
+    mainGameSource = mainGameMusicSource
+    if mainGameSource and mainGameSource:isPlaying() then
+        mainGameSource:pause()
+    end
+    
+    gameSource = love.audio.newSource(gameMusic, "stream")
+    gameSource:setLooping(true)
+    gameSource:play()
+    
     girlX = (love.graphics.getWidth() - girlWidth) / 2
     girlY = love.graphics.getHeight() - girlHeight
     ducks = {}
     duckTimer = duckSpawnTime
     score = 0
     gameMessage = "Avoid the falling ducks!"
-    endTimer = 0 -- Reset endTimer
+    endTimer = 0 
 end
 
 function game.update(dt)
     if not gameActive then
         endTimer = endTimer - dt
         if endTimer <= 0 then
+            -- Resume main game music
+            if mainGameSource then
+                mainGameSource:play()
+            end
         end
         return
     end
@@ -81,8 +108,13 @@ function game.update(dt)
 
         if d.y + duckHeight > girlY and d.x < girlX + girlWidth and d.x + duckWidth > girlX then
             gameMessage = "Oh no! You got hit by a duck! Final score: " .. score
+            love.audio.play(love.audio.newSource(loseMusic, "static"))
             gameActive = false
             endTimer = 3 
+
+            if gameSource then
+                gameSource:stop()
+            end
         end
     end
 

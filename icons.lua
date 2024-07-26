@@ -1,5 +1,3 @@
--- icons.lua
-
 local icons = {}
 local eat = require("eat")
 local med = require("med")
@@ -133,6 +131,12 @@ function icons.executeAction()
     end
 end
 
+function icons.stopMainGameMusic()
+    if mainGameSource and mainGameSource:isPlaying() then
+        mainGameSource:stop()
+    end
+end
+
 function icons.toggleLight()
     lightOn = not lightOn
     if lightOn then
@@ -165,6 +169,7 @@ function icons.mousepressed(x, y, button)
         if x >= OKButton.x and x <= OKButton.x + OKButton.width and
            y >= OKButton.y and y <= OKButton.y + OKButton.height then
             icons.executeAction()
+            icons.stopMainGameMusic()
         end
     end
 end
@@ -200,5 +205,10 @@ end
 function icons.isCleanIconClicked()
     return cleanIconClicked
 end
-return icons
 
+-- Expose the buttons for external access
+icons.backButton = backButton
+icons.OKButton = OKButton
+icons.forwardButton = forwardButton
+
+return icons

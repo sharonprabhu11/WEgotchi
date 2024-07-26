@@ -35,6 +35,14 @@ local jumpTimer = 0
 local jumpDuration = 0.75
 local jumpIndex = 1
 
+local ouchSound = '/audio/ouch.mp3'
+
+
+-- New variables for music management
+local mainGameSource
+local medGameSource
+local ouchSource
+
 function med.load()
     background = love.graphics.newImage("assets/background.png")
     healthyGirlSprite = love.graphics.newImage("assets/medicine/healthygirl.png")
@@ -66,9 +74,11 @@ function med.load()
         table.insert(jumpYPositions, y)
     end
 
+    -- Initialize sound sources
+    ouchSource = love.audio.newSource(ouchSound, "static")
 end
 
-function med.start()
+function med.start(mainGameMusicSource)
     local randomChoice = love.math.random(1, 2)
     
     if randomChoice == 1 then
@@ -79,6 +89,18 @@ function med.start()
     
     showGirlMed = true
     medTimer = 0
+
+    -- Pause main game music
+    mainGameSource = mainGameMusicSource
+    if mainGameSource and mainGameSource:isPlaying() then
+        mainGameSource:pause()
+    end
+
+    -- Play ouch sound
+    ouchSource:play()
+
+    
+  
 end
 
 function med.update(dt)
@@ -88,9 +110,19 @@ function med.update(dt)
             showPill = false
             showInjection = false
             showGirlMed = false
-            showGirlHealthy =  true
+            showGirlHealthy = true
             jumpTimer = 0
             jumpIndex = 1
+
+            -- Stop medical game music
+            if medGameSource then
+                medGameSource:stop()
+            end
+
+            -- Resume main game music
+            if mainGameSource then
+                mainGameSource:play()
+            end
         end
     end
 
@@ -122,7 +154,6 @@ function med.update(dt)
     end
 
     if showGirlHealthy then
-
         jumpTimer = jumpTimer + dt
         local progress = jumpTimer / jumpDuration
         local positionIndex = math.floor(progress * (#jumpYPositions - 1)) + 1
@@ -155,4 +186,3 @@ function med.draw()
 end
 
 return med
-

@@ -14,12 +14,10 @@ function hunger.load()
 end
 
 function hunger.update(dt)
-
     if icon.isEatIconClicked() then
         increaseHunger(100)
         icon.resetEatIconClicked()  
     end
-
 
     local decrease_rate = 2
     hunger_meter_percent = hunger_meter_percent - dt * decrease_rate

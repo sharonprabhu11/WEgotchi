@@ -8,9 +8,18 @@ local eat = require("eat")
 local med = require("med")
 local game = require("game")
 
+local introMusic = '/audio/intro.mp3'
+local buttonMusic = '/audio/button.wav'
+local mainGameMusic = '/audio/maingame.mp3'
+local nightMusic = '/audio/snoring.mp3'
+
 local background
 local pixelFont
 local bgnight
+
+local introSource
+local mainGameSource
+local nightMusicSource
 
 function love.load()
     love.window.setMode(1600, 1033)
@@ -28,14 +37,46 @@ function love.load()
     med.load()
     game.load()
 
+    introSource = love.audio.newSource(introMusic, "stream")
+    introSource:setLooping(true)
+    love.audio.play(introSource)
+
     background = love.graphics.newImage("assets/background.png")
-    bgnight = love.graphics.newImage("assets/bgnight.png") -- Load the night background image
+    bgnight = love.graphics.newImage("assets/bgnight.png")
+
+    mainGameSource = love.audio.newSource(mainGameMusic, "stream")
+    mainGameSource:setLooping(true)
+
+    nightMusicSource = nil
 end
 
 function love.update(dt)
     if intro.isActive() then
         intro.update(dt)
     else
+        if introSource and introSource:isPlaying() then
+            introSource:stop()
+            mainGameSource:play()
+        end
+
+        if not icon.isLightOn() then
+            if not nightMusicSource or not nightMusicSource:isPlaying() then
+                if mainGameSource and mainGameSource:isPlaying() then
+                    mainGameSource:pause()
+                end
+                nightMusicSource = love.audio.newSource(nightMusic, "stream")
+                nightMusicSource:setLooping(true)
+                nightMusicSource:play()
+            end
+        else
+            if nightMusicSource and nightMusicSource:isPlaying() then
+                nightMusicSource:stop()
+                if mainGameSource then
+                    mainGameSource:play()
+                end
+            end
+        end
+
         animation.update(dt)
         hunger.update(dt)
         energy.update(dt)
@@ -54,7 +95,7 @@ function love.draw()
         if icon.isLightOn() then
             love.graphics.draw(background, 0, 0)
         else
-            love.graphics.draw(bgnight, 0, 0) -- Draw the night background when light is off
+            love.graphics.draw(bgnight, 0, 0)
         end
 
         icon.draw()
@@ -74,7 +115,16 @@ function love.mousepressed(x, y, button)
     if intro.isActive() then
         intro.mousepressed(x, y, button)
     else
+        if x >= icon.OKButton.x and x <= icon.OKButton.x + icon.OKButton.width and
+           y >= icon.OKButton.y and y <= icon.OKButton.y + icon.OKButton.height then
+            icon.stopMainGameMusic()
+        end
+
         icon.mousepressed(x, y, button)
+        love.audio.play(love.audio.newSource(buttonMusic, "static"))
+
+        if icon.isEatIconClicked() then
+            eat.start()
+        end
     end
 end
-

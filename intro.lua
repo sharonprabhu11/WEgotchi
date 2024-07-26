@@ -16,6 +16,8 @@ local timer = 0
 local okayButton = {x = 750, y = 800, width = 100, height = 50}
 local showIntro = true
 
+local buttonMusic = '/audio/button.wav'
+
 function intro.load(pixelFont)
     font = pixelFont
     introduck = love.graphics.newImage("assets/introduck.png")
@@ -52,6 +54,7 @@ end
 
 function intro.mousepressed(x, y, button)
     if showIntro and button == 1 then
+        love.audio.play(love.audio.newSource(love.sound.newSoundData(buttonMusic)))
         if x >= okayButton.x and x <= okayButton.x + okayButton.width and y >= okayButton.y and y <= okayButton.y + okayButton.height then
             showIntro = false
         end
