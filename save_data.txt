@@ -1,1 +1,1 @@
-{"happyPercent":100,"time":1721927055,"energyPercent":100,"hungerPercent":100}
+{"happyPercent":42.769302036,"time":1722003634,"energyPercent":90.05981829,"hungerPercent":31.669755798}

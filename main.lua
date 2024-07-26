@@ -10,7 +10,6 @@ local cleaning = require("cleaning")
 local game = require("game")
 local saveData = require("saveData")
 
-
 local background
 local pixelFont
 local bgnight
@@ -19,12 +18,48 @@ local introSource
 local mainGameSource
 local nightMusicSource
 
+-- Debugging function to check module loading
+local function checkModule(module, name)
+    if not module then
+        print(name .. " module is nil. Check if the file is present and correctly named.")
+    else
+        print(name .. " module loaded successfully.")
+    end
+end
+
+-- Helper function to load and verify audio sources
+local function loadAudio(path, type)
+    local success, audio = pcall(function()
+        return love.audio.newSource(path, type)
+    end)
+    if success and audio then
+        return audio
+    else
+        print("Error loading audio from " .. path)
+        return nil
+    end
+end
+
 function love.load()
     love.window.setMode(1600, 1033)
     love.window.setTitle("WEP✨")
 
     pixelFont = love.graphics.newFont("assets/fonts/pixelfont.otf", 20)
 
+    -- Check modules
+    checkModule(intro, "Intro")
+    checkModule(icon, "Icon")
+    checkModule(animation, "Animation")
+    checkModule(hunger, "Hunger Meter")
+    checkModule(energy, "Energy Meter")
+    checkModule(happy, "Happiness Meter")
+    checkModule(eat, "Eat")
+    checkModule(med, "Med")
+    checkModule(cleaning, "Cleaning")
+    checkModule(game, "Game")
+    checkModule(saveData, "Save Data")
+
+    -- Load assets and initialize modules
     intro.load(pixelFont)
     icon.load()
     animation.load()
@@ -36,12 +71,30 @@ function love.load()
     cleaning.load()
     game.load()
 
-    introSource = love.audio.newSource(introMusic, "stream")
-    introSource:setLooping(true)
-    love.audio.play(introSource)
+    -- Load and verify audio sources
+    local introMusic = 'audio/intro.mp3'
+    local buttonMusic = 'audio/button.wav'
+    local mainGameMusic = 'audio/maingame.mp3'
+    local nightMusic = 'audio/snoring.mp3'
+
+    introSource = loadAudio(introMusic, "stream")
+    if introSource then
+        introSource:setLooping(true)
+        love.audio.play(introSource)
+    end
+
+    mainGameSource = loadAudio(mainGameMusic, "stream")
+    if mainGameSource then
+        mainGameSource:setLooping(true)
+    end
+
+    nightMusicSource = loadAudio(nightMusic, "stream")
+    if nightMusicSource then
+        nightMusicSource:setLooping(true)
+    end
 
     background = love.graphics.newImage("assets/background.png")
-    bgnight = love.graphics.newImage("assets/bgnight.png") -- Load the night background image
+    bgnight = love.graphics.newImage("assets/bgnight.png")
 
     local savedData = saveData.loadData()
     if savedData then
@@ -60,7 +113,9 @@ function love.update(dt)
     else
         if introSource and introSource:isPlaying() then
             introSource:stop()
-            mainGameSource:play()
+            if mainGameSource then
+                mainGameSource:play()
+            end
         end
 
         if not icon.isLightOn() then
@@ -68,9 +123,9 @@ function love.update(dt)
                 if mainGameSource and mainGameSource:isPlaying() then
                     mainGameSource:pause()
                 end
-                nightMusicSource = love.audio.newSource(nightMusic, "stream")
-                nightMusicSource:setLooping(true)
-                nightMusicSource:play()
+                if nightMusicSource then
+                    nightMusicSource:play()
+                end
             end
         else
             if nightMusicSource and nightMusicSource:isPlaying() then
@@ -127,7 +182,10 @@ function love.mousepressed(x, y, button)
         end
 
         icon.mousepressed(x, y, button)
-        love.audio.play(love.audio.newSource(buttonMusic, "static"))
+        local buttonMusicSource = loadAudio('audio/button.wav', "static")
+        if buttonMusicSource then
+            love.audio.play(buttonMusicSource)
+        end
 
         if icon.isEatIconClicked() then
             eat.start()
@@ -144,4 +202,3 @@ function love.quit()
     }
     saveData.saveData(data)
 end
-
