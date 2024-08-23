@@ -25,7 +25,7 @@ function happy.update(dt)
         icon.resetCleanIconClicked()
     end
 
-    local decrease_rate = 2
+    local decrease_rate = 0.75
     happy_meter_percent = happy_meter_percent - dt * decrease_rate
     if happy_meter_percent < 0 then
         happy_meter_percent = 0
