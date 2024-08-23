@@ -1,34 +1,28 @@
 local cleaning = {}
 
 local girlSprites = {}
-local cloudSprites = {}
 local soapSprites = {}
 local bubbleSprites = {}
 local happyGirlSprite
 
 local currentGirlSprite
-local currentCloudSprite
 local currentSoapSprite
 local currentBubbleSprite
 local currentHappyGirlSprite
 
 local girlIndex = 1
-local cloudIndex = 1
 local soapIndex = 1
 local bubbleIndex = 1
 
 local girlSpeed = 0.2
-local cloudSpeed = 0.1
 local soapSpeed = 0.15
 local bubbleSpeed = 0.2
 
 local girlTimer = 0
-local cloudTimer = 0
 local soapTimer = 0
 local bubbleTimer = 0
 
 local showGirl = false
-local showClouds = false
 local showSoap = false
 local showBubbles = false
 local showGirlHappy = false
@@ -44,15 +38,12 @@ local jumpIndex = 1
 function cleaning.load()
     
     background = love.graphics.newImage("assets/background.png")
-    happyGirlSprite = love.graphics.newImage("assets/newcleaning/happygirl.png")
+    happyGirlSprite = love.graphics.newImage("assets/medicine/healthygirl.png")
     
-    for i = 1, 4 do
+    for i = 1, 2 do
         table.insert(girlSprites, love.graphics.newImage("assets/newcleaning/girl (" .. i .. ").png"))
     end
 
-    for i = 1, 3 do
-        table.insert(cloudSprites, love.graphics.newImage("assets/newcleaning/cloud (" .. i .. ").png"))
-    end
 
     for i = 1, 2 do
         table.insert(soapSprites, love.graphics.newImage("assets/newcleaning/soap (" .. i .. ").png"))
@@ -63,7 +54,7 @@ function cleaning.load()
     end
 
     currentGirlSprite = girlSprites[1]
-    currentCloudSprite = cloudSprites[1]
+
     currentSoapSprite = soapSprites[1]
     currentBubbleSprite = bubbleSprites[1]
 
@@ -81,18 +72,16 @@ end
 
 function cleaning.start()
     showGirl = true
-    showClouds = true
     showSoap = true
     showBubbles = true
     cleaningTimer = 0
 end
 
 function cleaning.update(dt)
-    if showGirl or showClouds or showSoap or showBubbles then
+    if showGirl or showSoap or showBubbles then
         cleaningTimer = cleaningTimer + dt
         if cleaningTimer >= cleaningDuration then
             showGirl = false
-            showClouds = false
             showSoap = false
             showBubbles = false
             showGirlHappy = true
@@ -110,14 +99,6 @@ function cleaning.update(dt)
         end
     end
 
-    if showClouds then
-        cloudTimer = cloudTimer + dt
-        if cloudTimer >= cloudSpeed then
-            cloudTimer = cloudTimer - cloudSpeed
-            cloudIndex = cloudIndex % #cloudSprites + 1
-            currentCloudSprite = cloudSprites[cloudIndex]
-        end
-    end
 
     if showSoap then
         soapTimer = soapTimer + dt
@@ -152,10 +133,6 @@ end
 function cleaning.draw()
     if showGirl then
         love.graphics.draw(currentGirlSprite, 550, 425)
-    end
-
-    if showClouds then
-        love.graphics.draw(currentCloudSprite, 400, 430, 0, 1.3)
     end
 
     if showSoap then

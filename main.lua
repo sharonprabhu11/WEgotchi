@@ -18,14 +18,6 @@ local introSource
 local mainGameSource
 local nightMusicSource
 
--- Debugging function to check module loading
-local function checkModule(module, name)
-    if not module then
-        print(name .. " module is nil. Check if the file is present and correctly named.")
-    else
-        print(name .. " module loaded successfully.")
-    end
-end
 
 -- Helper function to load and verify audio sources
 local function loadAudio(path, type)
@@ -46,18 +38,7 @@ function love.load()
 
     pixelFont = love.graphics.newFont("assets/fonts/pixelfont.otf", 20)
 
-    -- Check modules
-    checkModule(intro, "Intro")
-    checkModule(icon, "Icon")
-    checkModule(animation, "Animation")
-    checkModule(hunger, "Hunger Meter")
-    checkModule(energy, "Energy Meter")
-    checkModule(happy, "Happiness Meter")
-    checkModule(eat, "Eat")
-    checkModule(med, "Med")
-    checkModule(cleaning, "Cleaning")
-    checkModule(game, "Game")
-    checkModule(saveData, "Save Data")
+   
 
     -- Load assets and initialize modules
     intro.load(pixelFont)
