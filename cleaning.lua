@@ -35,15 +35,17 @@ local jumpTimer = 0
 local jumpDuration = 0.75
 local jumpIndex = 1
 
+local cleanSound
+local mainMusic
+
+
 function cleaning.load()
-    
     background = love.graphics.newImage("assets/background.png")
     happyGirlSprite = love.graphics.newImage("assets/medicine/healthygirl.png")
     
     for i = 1, 2 do
         table.insert(girlSprites, love.graphics.newImage("assets/newcleaning/girl (" .. i .. ").png"))
     end
-
 
     for i = 1, 2 do
         table.insert(soapSprites, love.graphics.newImage("assets/newcleaning/soap (" .. i .. ").png"))
@@ -54,20 +56,20 @@ function cleaning.load()
     end
 
     currentGirlSprite = girlSprites[1]
-
     currentSoapSprite = soapSprites[1]
     currentBubbleSprite = bubbleSprites[1]
 
-    -- jump positions array
     satisfiedY = 425  
-    
     for y = 425, 325, -5 do
         table.insert(jumpYPositions, y)
     end
-    
     for y = 325, 425, 5 do
         table.insert(jumpYPositions, y)
     end
+
+    -- Load sounds
+    cleanSound = love.audio.newSource("/audio/shower.mp3", "static")
+    mainMusic = love.audio.newSource("/audio/maingame.mp3", "stream") -- Assuming this is the main game music
 end
 
 function cleaning.start()
@@ -75,6 +77,10 @@ function cleaning.start()
     showSoap = true
     showBubbles = true
     cleaningTimer = 0
+    
+    -- Play cleaning sound and pause main music
+    love.audio.play(cleanSound)
+    mainMusic:pause()
 end
 
 function cleaning.update(dt)
@@ -87,7 +93,11 @@ function cleaning.update(dt)
             showGirlHappy = true
             jumpTimer = 0
             jumpIndex = 1
+            
+            -- Stop cleaning sound and resume main music
+            cleanSound:stop()
         end
+            
     end
 
     if showGirl then
@@ -98,7 +108,6 @@ function cleaning.update(dt)
             currentGirlSprite = girlSprites[girlIndex]
         end
     end
-
 
     if showSoap then
         soapTimer = soapTimer + dt
@@ -150,4 +159,3 @@ function cleaning.draw()
 end
 
 return cleaning
-
