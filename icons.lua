@@ -74,7 +74,23 @@ end
 function icons.draw()
     if not lightOn then
         love.graphics.setColor(1, 1, 1) 
-        love.graphics.draw(bgnight, -350, -150, 0, 2.4) 
+
+       
+        local windowWidth, windowHeight = love.graphics.getDimensions()
+        
+       
+        local imgWidth, imgHeight = bgnight:getDimensions()
+     
+        local scaleX = windowWidth / imgWidth
+        local scaleY = windowHeight / imgHeight
+        local scale = math.min(scaleX, scaleY)
+        
+       
+        local x = (windowWidth - imgWidth * scale) / 2
+        local y = (windowHeight - imgHeight * scale) / 2
+        
+      
+        love.graphics.draw(bgnight, x, y, 0, scale, scale)
         love.graphics.draw(lightOffIcon, 1305, 750, 0, 0.38)
     else
         for i, iconImg in ipairs(iconSprites) do
@@ -88,7 +104,7 @@ function icons.draw()
             end
         end
 
-        -- forward/back nav buttons
+     
         love.graphics.setColor(1, 1, 1)
         love.graphics.rectangle("fill", backButton.x, backButton.y, backButton.width, backButton.height)
 
@@ -167,8 +183,7 @@ function icons.mousepressed(x, y, button)
             icons.selectNext()
         end
 
-        if x >= OKButton.x and x <= OKButton.x + OKButton.width and
-           y >= OKButton.y and y <= OKButton.y + OKButton.height then
+        if x >= OKButton.x and x <= OKButton.x + OKButton.width and y >= OKButton.y and y <= OKButton.y + OKButton.height then
             icons.executeAction()
             icons.stopMainGameMusic()
         end

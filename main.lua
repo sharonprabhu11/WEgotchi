@@ -19,7 +19,6 @@ local mainGameSource
 local nightMusicSource
 
 
--- Helper function to load and verify audio sources
 local function loadAudio(path, type)
     local success, audio = pcall(function()
         return love.audio.newSource(path, type)
@@ -27,7 +26,6 @@ local function loadAudio(path, type)
     if success and audio then
         return audio
     else
-        print("Error loading audio from " .. path)
         return nil
     end
 end

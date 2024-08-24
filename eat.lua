@@ -82,7 +82,7 @@ function eat.start()
     showGirlEat = true
     eatTimer = 0
 
-    -- Pause main game music and play eating sound
+
     if mainGameSource and mainGameSource:isPlaying() then
         mainGameSource:pause()
     end
@@ -105,7 +105,6 @@ function eat.update(dt)
             jumpTimer = 0
             jumpIndex = 1
 
-            -- Stop eating sound and resume main game music
             if eatSoundSource and eatSoundSource:isPlaying() then
                 eatSoundSource:stop()
             end
