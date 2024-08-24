@@ -19,7 +19,7 @@ function hunger.update(dt)
         icon.resetEatIconClicked()  
     end
 
-    local decrease_rate = 0.75
+    local decrease_rate = 0.5
     hunger_meter_percent = hunger_meter_percent - dt * decrease_rate
     if hunger_meter_percent < 0 then
         hunger_meter_percent = 0

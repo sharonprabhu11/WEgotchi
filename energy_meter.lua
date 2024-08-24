@@ -23,7 +23,7 @@ function energy.update(dt)
         icon.resetMedIconClicked()
     end
 
-    local decrease_rate = 0.75
+    local decrease_rate = 0.5
     energy_meter_percent = energy_meter_percent - dt * decrease_rate
     if energy_meter_percent < 0 then
         energy_meter_percent = 0
