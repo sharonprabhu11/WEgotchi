@@ -10,9 +10,6 @@ Welcome to this game project we created! This project was developed by our team 
 #### Understanding the Basics
 We began by familiarizing ourselves with the basics of Lua, including syntax, variables, loops, and functions. Resources like the official Lua documentation and online tutorials were invaluable.
 
-#### Setting Up the Development Environment
-We set up our development environment using tools like LuaRocks for package management and ZeroBrane Studio as our IDE for Lua development.
-
 ### Figuring Out Different Sections of the Code
 
 #### Game Structure
